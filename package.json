@@ -1,0 +1,24 @@
+{
+  "name": "backend-maap",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Arthur Henrique Pereira Martins, Maria Luiza Campos, Ana Julia Souza Gomes, Pedro Otávio Camolesi",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/pg": "^8.11.11",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "pg": "^8.13.3",
+    "prompt-sync": "^4.2.0",
+    "typescript-require": "^0.3.0"
+  }
+}
