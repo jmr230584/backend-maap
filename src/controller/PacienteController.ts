@@ -47,12 +47,12 @@ export class PacienteController {
             const PacienteRecebido: PacienteDTO = req.body;
 
             // Instanciando um objeto do tipo Paciente com as informações recebidas
-            const novoPaciente = new Paciente(PacienteRecebido.nome, 
-                                             PacienteRecebido.cpf, 
-                                             PacienteRecebido.telefone,
-                                             PacienteRecebido.email,
-                                             PacienteRecebido.dataNascimento,
-                                             PacienteRecebido.endereco);
+            const novoPaciente = new Paciente(PacienteRecebido.nome,
+                PacienteRecebido.cpf,
+                PacienteRecebido.telefone,
+                PacienteRecebido.email,
+                PacienteRecebido.dataNascimento,
+                PacienteRecebido.endereco);
 
             // Chama a função de cadastro passando o objeto como parâmetro
             const respostaClasse = await Paciente.cadastroPaciente(novoPaciente);

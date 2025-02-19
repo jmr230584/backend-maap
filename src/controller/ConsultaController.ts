@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Consulta } from "../model/Consulta";
 
 interface ConsultaDTO {
-    nome: string, 
+    nome: string,
     data: Date,
     hora: string,
     diagnostico: string,
@@ -66,29 +66,29 @@ export class ConsultaController extends Consulta {
 
             // instanciando um objeto do tipo Emprestimo com as informações recebidas
             const novoConsulta = new Consulta(
-                                                consultaRecebido.nome, 
-                                                consultaRecebido.data, 
-                                                consultaRecebido.hora, 
-                                                consultaRecebido.diagnostico,
-                                                consultaRecebido.receita, 
-                                                consultaRecebido.salaAtendimento, 
-                                                consultaRecebido.status, 
-                                                consultaRecebido.idPaciente, 
-                                                consultaRecebido.idMedico
-                                                );
+                consultaRecebido.nome,
+                consultaRecebido.data,
+                consultaRecebido.hora,
+                consultaRecebido.diagnostico,
+                consultaRecebido.receita,
+                consultaRecebido.salaAtendimento,
+                consultaRecebido.status,
+                consultaRecebido.idPaciente,
+                consultaRecebido.idMedico
+            );
 
             // Chama a função de cadastro passando o objeto como parâmetro
             const repostaClasse = await Consulta.cadastroConsulta(novoConsulta);
 
             // verifica a resposta da função
-            if(repostaClasse) {
+            if (repostaClasse) {
                 // retornar uma mensagem de sucesso
                 return res.status(200).json({ mensagem: "Consulta cadastrado com sucesso!" });
             } else {
                 // retorno uma mensagem de erro
-                return res.status(400).json({ mensagem: "Erro ao cadastra o Consulta. Entre em contato com o administrador do sistema."})
+                return res.status(400).json({ mensagem: "Erro ao cadastra o Consulta. Entre em contato com o administrador do sistema." })
             }
-            
+
         } catch (error) {
             // lança uma mensagem de erro no console
             console.log(`Erro ao cadastrar um Consulta. ${error}`);

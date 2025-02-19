@@ -53,12 +53,12 @@ export class Consulta {
     /**
      * Identificador do paciente.
      */
-    private idPaciente: number ;
+    private idPaciente: number;
 
     /**
      * Identificador do médico responsável pela consulta.
      */
-    private IdMedico: number ;
+    private IdMedico: number;
 
     /**
      * Construtor da classe Consulta.
@@ -72,7 +72,7 @@ export class Consulta {
      * @param status Status da consulta.
      */
     constructor(
-        nome: string, 
+        nome: string,
         data: Date,
         hora: string,
         diagnostico: string,
@@ -112,37 +112,37 @@ export class Consulta {
     }
 
 
-        /**
-     * Recupera o identificador da consulta.
-     * @returns O identificador da consulta.
-     */
-        public getIdPaciente(): number {
-            return this.idPaciente;
-        }
-    
-        /**
-         * Define o identificador da consulta.
-         * @param idConsulta O identificador da consulta.
-         */
-        public setIdPaciente(idPaciente: number): void {
-            this.idPaciente = idPaciente;
-        }
+    /**
+ * Recupera o identificador da consulta.
+ * @returns O identificador da consulta.
+ */
+    public getIdPaciente(): number {
+        return this.idPaciente;
+    }
 
-                /**
-     * Recupera o identificador da consulta.
-     * @returns O identificador da consulta.
+    /**
+     * Define o identificador da consulta.
+     * @param idConsulta O identificador da consulta.
      */
-                public getIdMedico(): number {
-                    return this.IdMedico;
-                }
-            
-                /**
-                 * Define o identificador da consulta.
-                 * @param idConsulta O identificador da consulta.
-                 */
-                public setIdMedico(idMedico: number): void {
-                    this.IdMedico = idMedico;
-                }
+    public setIdPaciente(idPaciente: number): void {
+        this.idPaciente = idPaciente;
+    }
+
+    /**
+* Recupera o identificador da consulta.
+* @returns O identificador da consulta.
+*/
+    public getIdMedico(): number {
+        return this.IdMedico;
+    }
+
+    /**
+     * Define o identificador da consulta.
+     * @param idConsulta O identificador da consulta.
+     */
+    public setIdMedico(idMedico: number): void {
+        this.IdMedico = idMedico;
+    }
 
     /**
      * Recupera o nome do paciente.
@@ -257,16 +257,16 @@ export class Consulta {
     }
 
 
-     /**
-     * Busca e retorna uma lista de Consulta do banco de dados.
-     * @returns Um array de objetos do tipo `Consulta` em caso de sucesso ou `null` se ocorrer um erro durante a consulta.
-     * 
-     * - A função realiza uma consulta SQL para obter todas as informações da tabela "Consulta".
-     * - Os dados retornados do banco de dados são usados para instanciar objetos da classe `Consulta`.
-     * - Cada Consulta é adicionado a uma lista que será retornada ao final da execução.
-     * - Se houver falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
-     */
-     static async listagemConsulta(): Promise<Array<Consulta> | null> {
+    /**
+    * Busca e retorna uma lista de Consulta do banco de dados.
+    * @returns Um array de objetos do tipo `Consulta` em caso de sucesso ou `null` se ocorrer um erro durante a consulta.
+    * 
+    * - A função realiza uma consulta SQL para obter todas as informações da tabela "Consulta".
+    * - Os dados retornados do banco de dados são usados para instanciar objetos da classe `Consulta`.
+    * - Cada Consulta é adicionado a uma lista que será retornada ao final da execução.
+    * - Se houver falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
+    */
+    static async listagemConsulta(): Promise<Array<Consulta> | null> {
         // objeto para armazenar a lista de Consulta
         const listaDeConsulta: Array<Consulta> = [];
 

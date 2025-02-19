@@ -36,7 +36,7 @@ export class MedicoController {
     static async cadastro(req: Request, res: Response): Promise<Response> {
         try {
             const medicoRecebido: MedicoDTO = req.body;
-            
+
             const novoMedico = new Medico(
                 medicoRecebido.nome,
                 medicoRecebido.especialidade,
