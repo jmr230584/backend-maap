@@ -10,9 +10,11 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "express": "^4.21.2",
     "prompt-sync": "^4.2.0",
     "typescript-require": "^0.3.0"
   }
