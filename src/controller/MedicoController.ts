@@ -33,7 +33,7 @@ export class MedicoController {
      * @param res Objeto de resposta HTTP.
      * @returns Resposta com status 200 em caso de sucesso ou 400 para erro.
      */
-    static async cadastro(req: Request, res: Response): Promise<any> {
+    static async novo(req: Request, res: Response): Promise<Response> {
         try {
             const medicoRecebido: MedicoDTO = req.body;
 
