@@ -16,7 +16,7 @@ router.get("/", (req: Request, res: Response) => {
 // Rota para listar os médicos
 router.get("/listar/medico", MedicoController.todos);
 // Rota para cadastrar um novo médico
-router.get("/listar/cadastro", MedicoController.novo);
+router.get("/cadastro/medico", MedicoController.novo);
 
 
 /* 
@@ -24,7 +24,7 @@ router.get("/listar/cadastro", MedicoController.novo);
 */ 
 // Rota para listar os pacientes
 router.get("/listar/paciente", PacienteController.todos);
-router.get("/listar/cadastro", PacienteController.novo);
+router.get("/cadastro/paciente", PacienteController.novo);
 // Rota para cadastrar um novo paciente
 
 
@@ -34,7 +34,7 @@ router.get("/listar/cadastro", PacienteController.novo);
 // Rota para listar as consultas
 router.get("/listar/consulta", ConsultaController.todos);
 // Rota para cadastrar uma nova consulta
-router.get("/listar/cadastro", ConsultaController.novo);
+router.get("/cadastro/consulta", ConsultaController.novo);
 
 
 // Exportando as rotas
