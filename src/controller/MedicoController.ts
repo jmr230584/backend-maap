@@ -4,7 +4,7 @@ import { Medico } from "../model/Medico";
 interface MedicoDTO {
     nome: string,
     especialidade: string,
-    CRM: string,
+    crm: string,
     telefone: number,
     email: string
 }
@@ -40,7 +40,7 @@ export class MedicoController {
             const novoMedico = new Medico(
                 medicoRecebido.nome,
                 medicoRecebido.especialidade,
-                medicoRecebido.CRM,
+                medicoRecebido.crm,
                 medicoRecebido.telefone,
                 medicoRecebido.email
             );
