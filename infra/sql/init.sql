@@ -25,9 +25,9 @@ CREATE TABLE Medico (
 	email VARCHAR (80)
 );
 INSERT INTO medico (id_medico, nome, especialidade, telefone, crm, email) VALUES
-(1, 'Dr. Clovis Basilio', 'Cardiologia', '123456-SP','16 99274-2016', 'clovisbasilio@gmail.com'),
-(2, 'Dra. Elisa Sanches', 'Pediatria', '654321-RJ','16 99350-1682', 'elisasanches@gmail.com'),
-(3, 'Dr. Carlos Neto', 'Ortopedia', '987687-MG','16 99108-5935', 'carlosneto@gmail.com');
+(1, 'Dr. Clovis Basilio', 'Cardiologia', '16 99274-2016','123456-SP', 'clovisbasilio@gmail.com'),
+(2, 'Dra. Elisa Sanches', 'Pediatria', '16 99350-1682','654321-RJ', 'elisasanches@gmail.com'),
+(3, 'Dr. Carlos Neto', 'Ortopedia', '16 99108-5935','987687-MG', 'carlosneto@gmail.com');
 
 
 
