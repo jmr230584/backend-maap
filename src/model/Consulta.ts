@@ -43,7 +43,7 @@ export class Consulta {
     /**
      * Número da sala de atendimento.
      */
-    private salaAtendimento: number;
+    private salaAtendimento: string;
 
     /**
      * Status da consulta (por exemplo, "agendada", "realizada", etc.).
@@ -77,7 +77,7 @@ export class Consulta {
         hora: string,
         diagnostico: string,
         receita: string,
-        salaAtendimento: number,
+        salaAtendimento: string,
         status: string,
         idPaciente: number,
         idMedico: number,
@@ -228,7 +228,7 @@ export class Consulta {
      * Recupera o número da sala de atendimento.
      * @returns O número da sala de atendimento.
      */
-    public getSalaAtendimento(): number {
+    public getSalaAtendimento(): string {
         return this.salaAtendimento;
     }
 
@@ -236,7 +236,7 @@ export class Consulta {
      * Define o número da sala de atendimento.
      * @param salaAtendimento O número da sala de atendimento.
      */
-    public setSalaAtendimento(salaAtendimento: number): void {
+    public setSalaAtendimento(salaAtendimento: string): void {
         this.salaAtendimento = salaAtendimento;
     }
 
@@ -327,7 +327,7 @@ export class Consulta {
     static async cadastroConsulta(consulta: Consulta): Promise<boolean> {
         try {
             // query para fazer insert de um Consulta no banco de dados
-            const queryInsertConsulta = `INSERT INTO Consulta (nome, data, hora, diagnostico, receita, sala_atendimento, status)
+            const queryInsertConsulta = `INSERT INTO Consulta (nome, data, hora, diagnostico, receita, sala_atendimento, status, id_paciente, id_medico)
                                         VALUES ( 
                                             '${consulta.getNome()}', 
                                             '${consulta.getData()}', 
@@ -335,7 +335,9 @@ export class Consulta {
                                             '${consulta.getDiagnostico()}',
                                             '${consulta.getReceita()}',
                                             '${consulta.getSalaAtendimento()}',
-                                            '${consulta.getStatus()}')
+                                            '${consulta.getStatus()}',
+                                            ${consulta.getIdPaciente()},
+                                            ${consulta.getIdMedico()})
                                                RETURNING id_consulta;`;
 
             // executa a query no banco e armazena a resposta

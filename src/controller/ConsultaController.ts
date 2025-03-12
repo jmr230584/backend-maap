@@ -7,10 +7,10 @@ interface ConsultaDTO {
     hora: string,
     diagnostico: string,
     receita: string,
-    salaAtendimento: number,
+    salaAtendimento: string,
     status: string,
     idPaciente: number,
-    idMedico: number,
+    idMedico: number
 }
 
 /**

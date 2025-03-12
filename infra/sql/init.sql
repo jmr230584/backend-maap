@@ -19,7 +19,7 @@ INSERT INTO Paciente (nome, cpf, telefone, email, data_nascimento, endereco) VAL
 CREATE TABLE Medico (
     id_medico SERIAL PRIMARY KEY,
 	nome VARCHAR (80) NOT NULL,
-    especialidade VARCHAR (20) UNIQUE NOT NULL,
+    especialidade VARCHAR (20) NOT NULL,
     crm VARCHAR (20) NOT NULL,
 	telefone VARCHAR (80),
 	email VARCHAR (80)
@@ -39,12 +39,12 @@ CREATE TABLE Consulta (
     Hora VARCHAR(10) NOT NULL,
     Diagnostico VARCHAR(200),
     Receita VARCHAR(200),
-    SalaAtendimento VARCHAR(10) NOT NULL,
+    Sala_atendimento VARCHAR(10) NOT NULL,
     Status VARCHAR(20)NOT NULL,
     id_paciente INT NOT NULL,
     id_medico INT NOT NULL
 );
-INSERT INTO consulta (nome, data, hora, diagnostico, receita, salaAtendimento, status, id_paciente, id_medico) VALUES
-('João Silva', '2025-02-15', '09:00', 'Hipertensão', 'Losartana 50mg', 'A101', 'Realizada', 1, 1),
-('Maria Oliveira', '2025-02-16', '10:30', 'Infecção de garganta', 'Amoxicilina 500mg', 'B202', 'Realizada', 2, 2),
-('Antonio Souza', '2025-02-17', '11:00', 'Dor lombar', 'Fisioterapia', 'C303', 'Agendada', 3, 3);
+INSERT INTO consulta (nome, data, hora, diagnostico, receita, sala_atendimento, status, id_paciente, id_medico) VALUES
+    ('João Silva', '2025-02-15', '09:00', 'Hipertensão', 'Losartana 50mg', 101, 'Realizada', 1, 1),
+    ('Maria Oliveira', '2025-02-16', '10:30', 'Infecção de garganta', 'Amoxicilina 500mg', 202, 'Realizada', 2, 2),
+    ('Antonio Souza', '2025-02-17', '11:00', 'Dor lombar', 'Fisioterapia', 303, 'Agendada', 3, 3);
