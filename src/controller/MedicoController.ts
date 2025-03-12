@@ -45,7 +45,7 @@ export class MedicoController {
                 medicoRecebido.email
             );
 
-            const respostaClasse = await Medico.cadastrarMedico(novoMedico);
+            const respostaClasse = await Medico.cadastroMedico(novoMedico);
 
             if (respostaClasse) {
                 return res.status(200).json({ mensagem: "Médico cadastrado com sucesso!" });
