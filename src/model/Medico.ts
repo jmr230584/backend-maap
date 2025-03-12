@@ -214,7 +214,7 @@ export class Medico {
      * 
      * @returns {Promise<boolean>} - Retorna `true` se o cadastro foi realizado com sucesso, ou `false` se ocorreu um erro.
      */
-    static async cadastrarMedico(medico: Medico): Promise<boolean> {
+    static async cadastroMedico(medico: Medico): Promise<boolean> {
         try {
             // Query para fazer insert de um médico no banco de dados
             const queryInsertMedico = `INSERT INTO medico (nome, especialidade, crm, telefone, email)
