@@ -36,9 +36,14 @@ export class Medico {
     private telefone: number;
 
     /**
-     * Email do médico.
+     * Email do médico. 
      */
     private email: string;
+
+    /**
+     * status do médico. 
+     */
+    private statusMedico: boolean = true;
 
     /**
      * Construtor da classe Medico.
@@ -161,6 +166,26 @@ export class Medico {
         this.email = email;
     }
 
+        /**
+* Retorna o statusMedico no sistema
+* 
+* @return status do Medico do sistema 
+*/
+public getStatusMedico(): boolean {
+    return this.statusMedico;
+}
+
+
+/**
+ * Atribui um valoro statusMedico do Medico
+ * 
+ * @param _statusMedico : statusMedico do Medico
+ */
+public setStatusMedico(_statusMedico: boolean) {
+    this.statusMedico = _statusMedico;
+}
+
+
     /**
      * Realiza a listagem de médicos no banco de dados.
      * 
@@ -245,6 +270,86 @@ export class Medico {
             console.log(error);
             // Retorno um valor falso
             return false;
+        }
+    }
+
+    
+    /**
+     * Remove um Medico do banco de dados
+     * @param idMedico ID do Medico a ser removido
+     * @returns Boolean indicando se a remoção foi bem-sucedida
+    */
+    static async removerMedico(id_medico: number): Promise<Boolean> {
+        // variável para controle de resultado da consulta (query)
+        let queryResult = false;
+
+        try {
+            // Cria a consulta (query) para remover o medico
+            const queryDeleteConsultaMedico = `UPDATE consulta 
+                                                    SET status_consulta_registro = FALSE
+                                                    WHERE id_medico=${id_medico};`;
+
+            // remove os emprestimos associado ao Medico
+            await database.query(queryDeleteConsultaMedico);
+
+            // Construção da query SQL para deletar o Medico.
+            const queryDeleteMedico = `UPDATE medico 
+                                        SET status_medico = FALSE
+                                        WHERE id_medico=${id_medico};`;
+                                        
+
+            // Executa a query de exclusão e verifica se a operação foi bem-sucedida.
+            await database.query(queryDeleteMedico)
+                .then((result) => {
+                    if (result.rowCount != 0) {
+                        queryResult = true; // Se a operação foi bem-sucedida, define queryResult como true.
+                    }
+                });
+
+            // retorna o resultado da query
+            return queryResult;
+
+            // captura qualquer erro que aconteça
+        } catch (error) {
+            // Em caso de erro na consulta, exibe o erro no console e retorna false.
+            console.log(`Erro na consulta: ${error}`);
+            // retorna false
+            return queryResult;
+        }
+    }
+
+
+    /**
+    * Atualiza os dados de um aluno no banco de dados.
+    * @param medico Objeto do tipo Medico com os novos dados
+    * @returns true caso sucesso, false caso erro
+    */
+    static async atualizarCadastroMedico(medico: Medico): Promise<Boolean> {
+        let queryResult = false; // Variável para armazenar o resultado da operação.
+        try {
+            // Construção da query SQL para atualizar os dados do medico no banco de dados.
+            const queryAtualizarMedico = `UPDATE Aluno SET 
+                                            nome = '${medico.getNome().toUpperCase()}', 
+                                            especialidade = '${medico.getEspecialidade().toUpperCase()}',
+                                            crm = '${medico.getCrm()}', 
+                                            telefone = '${medico.getTelefone().toExponential()}', 
+                                            email = '${medico.getEmail().toLowerCase()}'                                            
+                                        WHERE id_medico = ${medico.idMedico}`;
+
+            // Executa a query de atualização e verifica se a operação foi bem-sucedida.
+            await database.query(queryAtualizarMedico)
+                .then((result) => {
+                    if (result.rowCount != 0) {
+                        queryResult = true; // Se a operação foi bem-sucedida, define queryResult como true.
+                    }
+                });
+
+            // Retorna o resultado da operação para quem chamou a função.
+            return queryResult;
+        } catch (error) {
+            // Em caso de erro na consulta, exibe o erro no console e retorna false.
+            console.log(`Erro na consulta: ${error}`);
+            return queryResult;
         }
     }
 }

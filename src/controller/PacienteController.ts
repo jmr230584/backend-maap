@@ -74,4 +74,58 @@ export class PacienteController {
             return res.status(400).json({ mensagem: "Não foi possível cadastrar o Paciente. Entre em contato com o administrador do sistema." });
         }
     }
+
+    static async remover(req: Request, res: Response): Promise<Response> {
+        try {
+            const idPaciente = parseInt(req.query.idPaciente as string);
+            const result = await Paciente.removerPaciente(idPaciente);
+            
+            if (result) {
+                return res.status(200).json('Paciente removido com sucesso');
+            } else {
+                return res.status(401).json('Erro ao deletar o paciente');
+            }
+        } catch (error) {
+            console.log("Erro ao remover o Paciente");
+            console.log(error);
+            return res.status(500).send("error");
+        }
+    }
+
+
+    static async atualizar(req: Request, res: Response): Promise<Response> {
+        try {
+            // Desestruturando objeto recebido pelo front-end
+            const PacienteRecebido: PacienteDTO = req.body;
+            
+            // Instanciando objeto paciente com os dados recebidos
+            const paciente = new Paciente(
+                PacienteRecebido.nome,
+                PacienteRecebido.cpf,
+                PacienteRecebido.telefone,
+                PacienteRecebido.email,
+                PacienteRecebido.dataNascimento,
+                PacienteRecebido.endereco            
+            );
+
+            // Define o ID do paciente, que deve ser passado na query string
+            paciente.setIdPaciente(parseInt(req.query.idPaciente as string));
+
+            console.log(PacienteRecebido);
+
+            // Chama o método para atualizar o cadastro do aluno no banco de dados
+            if (await Paciente.atualizarCadastroPaciente(paciente)) {
+                return res.status(200).json({ mensagem: "Paciente cadastro atualizado com sucesso!" });
+            } else {
+                return res.status(400).json('Não foi possível atualizar o aluno no banco de dados');
+            }
+        } catch (error) {
+            // Caso ocorra algum erro, este é registrado nos logs do servidor
+            console.error(`Erro no modelo: ${error}`);
+            // Retorna uma resposta com uma mensagem de erro
+            return res.json({ mensagem: "Erro ao atualizar aluno." });
+        }
+    }
 }
+
+export default PacienteController;
