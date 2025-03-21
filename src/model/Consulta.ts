@@ -61,6 +61,10 @@ export class Consulta {
     private IdMedico: number;
 
     /**
+     * Identificador de status responsável pela consulta.
+     */
+    private statusConsultaRegistro: boolean = true;
+    /**
      * Construtor da classe Consulta.
      * 
      * @param nome Nome do paciente.
@@ -256,6 +260,26 @@ export class Consulta {
         this.status = status;
     }
 
+               /**
+* Retorna o statusConsultaRegistro no sistema
+* 
+* @return status do Consulta do sistema 
+*/
+public getStatusConsultaRegistro(): boolean {
+    return this.statusConsultaRegistro;
+}
+
+
+/**
+ * Atribui um valoro statusConsultaRegistro do Consulta
+ * 
+ * @param _statusConsultaRegistro : statusConsultaRegistro do Consulta
+ */
+public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
+    this.statusConsultaRegistro = statusConsultaRegistro;
+}
+
+
 
     /**
     * Busca e retorna uma lista de Consulta do banco de dados.
@@ -362,4 +386,76 @@ export class Consulta {
             return false;
         }
     }
+
+    /**
+         * Remove um consulta do banco de dados.
+         * 
+         * A função realiza a desativação do consulta e suas consultas associadas no banco de dados.
+         * 
+         * @param id_consulta Identificador único do consulta a ser removido
+         * @returns {Promise<boolean>} Retorna true se a operação foi bem-sucedida, e false em caso de erro.
+         */
+        static async removerConsulta(id_consulta: number): Promise<Boolean> {
+            let queryResult = false;
+    
+            try {
+                // Atualiza o status da consulta para indicar que o Consulta não está mais ativo
+                const queryDeleteConsulta = `UPDATE consulta 
+                                                    SET status_consulta_registro = FALSE
+                                                    WHERE id_consulta=${id_consulta};`;
+    
+                // Executa a atualização de status do Consulta
+                await database.query(queryDeleteConsulta)
+                    .then((result) => {
+                        if (result.rowCount != 0) {
+                            queryResult = true; // Operação bem-sucedida
+                        }
+                    });
+    
+                return queryResult; // Retorna o resultado da operação
+    
+            } catch (error) {
+                console.log(`Erro na consulta: ${error}`);
+                return queryResult; // Retorna false em caso de erro
+            }
+        }
+    
+        /**
+         * Atualiza os dados de um Consulta no banco de dados.
+         * 
+         * @param consulta Objeto do tipo Consulta com os novos dados
+         * @returns {boolean} Retorna true em caso de sucesso, false em caso de erro
+         */
+        static async atualizarCadastroConsulta(consulta: Consulta): Promise<Boolean> {
+            let queryResult = false; // Variável para armazenar o resultado da operação.
+    
+            try {
+                // Consulta SQL para atualizar os dados do paciente
+                const queryAtualizarConsulta = `UPDATE paciente
+                                                SET nome='${consulta.getNome()}',
+                                                    data='${consulta.getData()}',
+                                                    hora='${consulta.getHora()}',
+                                                    diagnostico='${consulta.getDiagnostico()}',
+                                                    receita='${consulta.getReceita()}',
+                                                    sata_atendimento='${consulta.getSalaAtendimento()}',
+                                                    status='${consulta.getStatus()}',
+                                                    id_paciente='${consulta.getIdPaciente()}',
+                                                    id_medico='${consulta.getIdMedico()}'
+                                                WHERE id_consulta=${consulta.getIdConsulta()};`;
+    
+                // Executa a consulta de atualização
+                await database.query(queryAtualizarConsulta)
+                    .then((result) => {
+                        if (result.rowCount != 0) {
+                            queryResult = true; // Operação bem-sucedida
+                        }
+                    });
+    
+                return queryResult; // Retorna o resultado da operação
+    
+            } catch (error) {
+                console.log(`Erro na consulta: ${error}`);
+                return queryResult; // Retorna false em caso de erro
+            }
+        }
 }

@@ -22,6 +22,8 @@ export class Paciente {
     private dataNascimento: Date;
     /* Endereço do Paciente */
     private endereco: string;
+    /* status do Paciente */
+    private statusPaciente: boolean = true
 
     /**
      * Construtor da classe Paciente
@@ -173,6 +175,26 @@ export class Paciente {
     public setEndereco(endereco: string): void {
         this.endereco = endereco;
     }
+
+            /**
+* Retorna o statusPaciente no sistema
+* 
+* @return status do Medico do sistema 
+*/
+public getStatusPaciente(): boolean {
+    return this.statusPaciente;
+}
+
+
+/**
+ * Atribui um valoro statusPaciente do Medico
+ * 
+ * @param _statusPaciente : statusPaciente do Medico
+ */
+public setStatusPaciente(statusPaciente: boolean) {
+    this.statusPaciente = statusPaciente;
+}
+
 
     /**
      * Busca e retorna uma lista de pacientes do banco de dados.
