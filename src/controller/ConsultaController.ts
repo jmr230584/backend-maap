@@ -76,6 +76,7 @@ export class ConsultaController extends Consulta {
                 consultaRecebido.idPaciente,
                 consultaRecebido.idMedico
             );
+            console.log(novoConsulta)
 
             // Chama a função de cadastro passando o objeto como parâmetro
             const repostaClasse = await Consulta.cadastroConsulta(novoConsulta);
