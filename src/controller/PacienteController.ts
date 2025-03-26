@@ -75,7 +75,7 @@ export class PacienteController {
         }
     }
 
-    static async remover(req: Request, res: Response): Promise<Response> {
+    static async remover(req: Request, res: Response): Promise<any> {
         try {
             const idPaciente = parseInt(req.query.idPaciente as string);
             const result = await Paciente.removerPaciente(idPaciente);
@@ -93,7 +93,7 @@ export class PacienteController {
     }
 
 
-    static async atualizar(req: Request, res: Response): Promise<Response> {
+    static async atualizar(req: Request, res: Response): Promise<any> {
         try {
             // Desestruturando objeto recebido pelo front-end
             const PacienteRecebido: PacienteDTO = req.body;

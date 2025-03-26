@@ -64,7 +64,7 @@ export class MedicoController {
      * @param res Objeto de resposta HTTP.
      * @returns Mensagem de sucesso ou erro em formato JSON.
      */
-        static async remover(req: Request, res: Response): Promise<Response> {
+        static async remover(req: Request, res: Response): Promise<any> {
             try {
                 const idMedico = parseInt(req.query.idMedico as string);
                 const result = await Medico.removerMedico(idMedico);
@@ -88,7 +88,7 @@ export class MedicoController {
          * @param res Objeto de resposta do Express
          * @returns Retorna uma resposta HTTP indicando sucesso ou falha na atualização
          */
-        static async atualizar(req: Request, res: Response): Promise<Response> {
+        static async atualizar(req: Request, res: Response): Promise<any> {
             try {
                 // Desestruturando objeto recebido pelo front-end
                 const dadosRecebidos: MedicoDTO = req.body;

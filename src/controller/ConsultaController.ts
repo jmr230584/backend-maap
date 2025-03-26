@@ -99,7 +99,7 @@ export class ConsultaController extends Consulta {
         }
     }
 
-    static async remover(req: Request, res: Response): Promise<Response> {
+    static async remover(req: Request, res: Response): Promise<any> {
         try {
             const idConsulta = parseInt(req.query.idConsulta as string);
             const result = await Consulta.removerConsulta(idConsulta);
@@ -122,7 +122,7 @@ export class ConsultaController extends Consulta {
      * @param res Objeto de resposta do Express
      * @returns Retorna uma resposta HTTP indicando sucesso ou falha na atualização
      */
-    static async atualizar(req: Request, res: Response): Promise<Response> {
+    static async atualizar(req: Request, res: Response): Promise<any> {
         try {
             // Desestruturando objeto recebido pelo front-end
             const dadosRecebidos: ConsultaDTO = req.body;
