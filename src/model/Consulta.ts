@@ -349,6 +349,7 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
      *                   no console junto com os detalhes do erro.
      */
     static async cadastroConsulta(consulta: Consulta): Promise<boolean> {
+        console.log("CHEGREI BRASIL");
         try {
             // query para fazer insert de um Consulta no banco de dados
             const queryInsertConsulta = `INSERT INTO Consulta (nome, data, hora, diagnostico, receita, sala_atendimento, status, id_paciente, id_medico)

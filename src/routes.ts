@@ -31,9 +31,9 @@ router.get("/listar/paciente", PacienteController.todos);
 // Rota para cadastrar um novo paciente
 router.post("/cadastro/paciente", PacienteController.novo);
 // Rota para deletar um novo paciente
-router.post("/remover/paciente", PacienteController.remover);
+router.put("/remover/paciente", PacienteController.remover);
 // Rota para atualizar um novo paciente
-router.post("/atualizar/paciente", PacienteController.atualizar);
+router.put("/atualizar/paciente", PacienteController.atualizar);
 
 
 /* 
@@ -44,9 +44,9 @@ router.get("/listar/consulta", ConsultaController.todos);
 // Rota para cadastrar uma nova consulta
 router.post("/cadastro/consulta", ConsultaController.novo);
 // Rota para deltar uma nova consulta
-router.post("/remover/paciente", ConsultaController.remover);
+router.post("/remover/consulta", ConsultaController.remover);
 // Rota para atualizar uma nova consulta
-router.post("/atualizar/paciente", ConsultaController.atualizar);
+router.post("/atualizar/consulta", ConsultaController.atualizar);
 
 
 // Exportando as rotas
