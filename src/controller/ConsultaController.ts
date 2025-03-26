@@ -62,19 +62,19 @@ export class ConsultaController extends Consulta {
     static async novo(req: Request, res: Response): Promise<any> {
         try {
             // recuperando informações do corpo da requisição e colocando em um objeto da interface EmprestimoDTO
-            const consultaRecebido: ConsultaDTO = req.body;
+            const consultaRecebida: ConsultaDTO = req.body;
 
             // instanciando um objeto do tipo Emprestimo com as informações recebidas
             const novoConsulta = new Consulta(
-                consultaRecebido.nome,
-                consultaRecebido.data,
-                consultaRecebido.hora,
-                consultaRecebido.diagnostico,
-                consultaRecebido.receita,
-                consultaRecebido.salaAtendimento,
-                consultaRecebido.status,
-                consultaRecebido.idPaciente,
-                consultaRecebido.idMedico
+                consultaRecebida.nome,
+                consultaRecebida.data,
+                consultaRecebida.hora,
+                consultaRecebida.diagnostico,
+                consultaRecebida.receita,
+                consultaRecebida.salaAtendimento,
+                consultaRecebida.status,
+                consultaRecebida.idPaciente,
+                consultaRecebida.idMedico
             );
             console.log(novoConsulta)
 
@@ -98,4 +98,67 @@ export class ConsultaController extends Consulta {
             return res.status(400).json({ mensagem: "Não foi possível cadastrar o Consulta. Entre em contato com o administrador do sistema." });
         }
     }
+
+    static async remover(req: Request, res: Response): Promise<Response> {
+        try {
+            const idConsulta = parseInt(req.query.idConsulta as string);
+            const result = await Consulta.removerConsulta(idConsulta);
+
+            if (result) {
+                return res.status(200).json('Consulta removida com sucesso');
+            } else {
+                return res.status(401).json('Erro ao deletar a consulta');
+            }
+        } catch (error) {
+            console.log("Erro ao remover a consulta");
+            console.log(error);
+            return res.status(500).send("error");
+        }
+    }
+    /**
+     * Método para atualizar o cadastro de um consulta.
+     * 
+     * @param req Objeto de requisição do Express, contendo os dados atualizados do consulta
+     * @param res Objeto de resposta do Express
+     * @returns Retorna uma resposta HTTP indicando sucesso ou falha na atualização
+     */
+    static async atualizar(req: Request, res: Response): Promise<Response> {
+        try {
+            // Desestruturando objeto recebido pelo front-end
+            const dadosRecebidos: ConsultaDTO = req.body;
+
+            // Instanciando objeto consulta
+            const consulta = new Consulta(
+                dadosRecebidos.nome,
+                dadosRecebidos.data,
+                dadosRecebidos.hora,
+                dadosRecebidos.diagnostico,
+                dadosRecebidos.receita,
+                dadosRecebidos.salaAtendimento,
+                dadosRecebidos.status,
+                dadosRecebidos.idPaciente,
+                dadosRecebidos.idMedico
+            );
+
+            // Define o ID do consulta, que deve ser passado na query string
+            consulta.setIdConsulta(parseInt(req.query.idConsulta as string));
+
+            console.log(dadosRecebidos);
+
+            // Chama o método para atualizar o cadastro do consulta no banco de dados
+            if (await Consulta.atualizarCadastroConsulta(consulta)) {
+                return res.status(200).json({ mensagem: "Cadastro atualizado com sucesso!" });
+            } else {
+                return res.status(400).json('Não foi possível atualizar o consulta no banco de dados');
+            }
+        } catch (error) {
+            // Caso ocorra algum erro, este é registrado nos logs do servidor
+            console.error(`Erro no modelo: ${error}`);
+            // Retorna uma resposta com uma mensagem de erro
+            return res.json({ mensagem: "Erro ao atualizar consulta." });
+        }
+
+    }
 }
+
+export default ConsultaController;
