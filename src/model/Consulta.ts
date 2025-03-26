@@ -87,7 +87,7 @@ export class Consulta {
         idMedico: number,
     ) {
         this.nome = nome;
-        this.data = data;
+        this.data = data; 
         this.hora = hora;
         this.diagnostico = diagnostico;
         this.receita = receita;
@@ -95,7 +95,10 @@ export class Consulta {
         this.status = status;
         this.idPaciente = idPaciente;
         this.IdMedico = idMedico;
+
+        console.log(data);
     }
+    
 
     /* Métodos get e set */
 
@@ -296,7 +299,7 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
 
         try {
             // query de consulta ao banco de dados
-            const querySelectConsulta = `SELECT * FROM Consulta;`;
+            const querySelectConsulta = `SELECT * FROM medico WHERE status_consulta_registro = true;`;
 
             // fazendo a consulta e guardando a resposta
             const respostaBD = await database.query(querySelectConsulta);
@@ -349,7 +352,6 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
      *                   no console junto com os detalhes do erro.
      */
     static async cadastroConsulta(consulta: Consulta): Promise<boolean> {
-        console.log("CHEGREI BRASIL");
         try {
             // query para fazer insert de um Consulta no banco de dados
             const queryInsertConsulta = `INSERT INTO Consulta (nome, data, hora, diagnostico, receita, sala_atendimento, status, id_paciente, id_medico)
@@ -367,6 +369,8 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
 
             // executa a query no banco e armazena a resposta
             const respostaBD = await database.query(queryInsertConsulta);
+
+            console.log(respostaBD)
 
             // verifica se a quantidade de linhas modificadas é diferente de 0
             if (respostaBD.rowCount != 0) {
@@ -432,13 +436,13 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
     
             try {
                 // Consulta SQL para atualizar os dados do paciente
-                const queryAtualizarConsulta = `UPDATE paciente
+                const queryAtualizarConsulta = `UPDATE consulta
                                                 SET nome='${consulta.getNome()}',
                                                     data='${consulta.getData()}',
                                                     hora='${consulta.getHora()}',
                                                     diagnostico='${consulta.getDiagnostico()}',
                                                     receita='${consulta.getReceita()}',
-                                                    sata_atendimento='${consulta.getSalaAtendimento()}',
+                                                    sala_atendimento='${consulta.getSalaAtendimento()}',
                                                     status='${consulta.getStatus()}',
                                                     id_paciente='${consulta.getIdPaciente()}',
                                                     id_medico='${consulta.getIdMedico()}'

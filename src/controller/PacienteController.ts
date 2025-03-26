@@ -77,7 +77,7 @@ export class PacienteController {
 
     static async remover(req: Request, res: Response): Promise<any> {
         try {
-            const idPaciente = parseInt(req.query.idPaciente as string);
+            const idPaciente = parseInt(req.params.idPaciente);
             const result = await Paciente.removerPaciente(idPaciente);
             
             if (result) {
@@ -94,6 +94,7 @@ export class PacienteController {
 
 
     static async atualizar(req: Request, res: Response): Promise<any> {
+        console.log("CHEGREI BRASIL")
         try {
             // Desestruturando objeto recebido pelo front-end
             const PacienteRecebido: PacienteDTO = req.body;
@@ -109,21 +110,21 @@ export class PacienteController {
             );
 
             // Define o ID do paciente, que deve ser passado na query string
-            paciente.setIdPaciente(parseInt(req.query.idPaciente as string));
+            paciente.setIdPaciente(parseInt(req.params.idPaciente));
 
             console.log(PacienteRecebido);
 
-            // Chama o método para atualizar o cadastro do aluno no banco de dados
+            // Chama o método para atualizar o cadastro do paciente no banco de dados
             if (await Paciente.atualizarCadastroPaciente(paciente)) {
                 return res.status(200).json({ mensagem: "Paciente cadastro atualizado com sucesso!" });
             } else {
-                return res.status(400).json('Não foi possível atualizar o aluno no banco de dados');
+                return res.status(400).json('Não foi possível atualizar o paciente no banco de dados');
             }
         } catch (error) {
             // Caso ocorra algum erro, este é registrado nos logs do servidor
             console.error(`Erro no modelo: ${error}`);
             // Retorna uma resposta com uma mensagem de erro
-            return res.json({ mensagem: "Erro ao atualizar aluno." });
+            return res.json({ mensagem: "Erro ao atualizar medico." });
         }
     }
 }

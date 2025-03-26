@@ -210,7 +210,7 @@ public setStatusPaciente(statusPaciente: boolean) {
         const listagemPacientes: Array<Paciente> = [];
 
         try {
-            const querySelectPaciente = 'SELECT * FROM paciente';
+            const querySelectPaciente = 'SELECT * FROM paciente WHERE status_paciente = true;';
             const respostaBD = await database.query(querySelectPaciente);
 
             respostaBD.rows.forEach((linha: any) => {

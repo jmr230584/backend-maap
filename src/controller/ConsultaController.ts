@@ -142,7 +142,7 @@ export class ConsultaController extends Consulta {
             );
 
             // Define o ID do consulta, que deve ser passado na query string
-            consulta.setIdConsulta(parseInt(req.query.idConsulta as string));
+            consulta.setIdConsulta(parseInt(req.params.idPaciente));
 
             console.log(dadosRecebidos);
 

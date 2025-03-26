@@ -199,7 +199,7 @@ public setStatusMedico(_statusMedico: boolean) {
 
         try {
             // Query de consulta ao banco de dados
-            const querySelectMedico = `SELECT * FROM medico;`;
+            const querySelectMedico = `SELECT * FROM medico WHERE status_medico = true;`;
 
             // Fazendo a consulta e guardando a resposta
             const respostaBD = await database.query(querySelectMedico);
@@ -214,6 +214,7 @@ public setStatusMedico(_statusMedico: boolean) {
                     linha.email
                 );
                 // Atribui o ID ao objeto
+                novoMedico.setStatusMedico(linha.status_medico)
                 novoMedico.setIdMedico(linha.id_medico);
 
                 // Adiciona o objeto na lista
@@ -320,7 +321,7 @@ public setStatusMedico(_statusMedico: boolean) {
 
 
     /**
-    * Atualiza os dados de um aluno no banco de dados.
+    * Atualiza os dados de um medico no banco de dados.
     * @param medico Objeto do tipo Medico com os novos dados
     * @returns true caso sucesso, false caso erro
     */
@@ -328,11 +329,11 @@ public setStatusMedico(_statusMedico: boolean) {
         let queryResult = false; // Variável para armazenar o resultado da operação.
         try {
             // Construção da query SQL para atualizar os dados do medico no banco de dados.
-            const queryAtualizarMedico = `UPDATE Aluno SET 
+            const queryAtualizarMedico = `UPDATE Medico SET 
                                             nome = '${medico.getNome().toUpperCase()}', 
-                                            especialidade = '${medico.getEspecialidade().toUpperCase()}',
+                                            especialidade = '${medico.getEspecialidade()}',
                                             crm = '${medico.getCrm()}', 
-                                            telefone = '${medico.getTelefone().toExponential()}', 
+                                            telefone = '${medico.getTelefone()}', 
                                             email = '${medico.getEmail().toLowerCase()}'                                            
                                         WHERE id_medico = ${medico.idMedico}`;
 

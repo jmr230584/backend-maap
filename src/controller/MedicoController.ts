@@ -60,13 +60,13 @@ export class MedicoController {
 
         /**
      * Remove um medico.
-     * @param req Objeto de requisição HTTP com o ID do aluno a ser removido.
+     * @param req Objeto de requisição HTTP com o ID do medico a ser removido.
      * @param res Objeto de resposta HTTP.
      * @returns Mensagem de sucesso ou erro em formato JSON.
      */
         static async remover(req: Request, res: Response): Promise<any> {
             try {
-                const idMedico = parseInt(req.query.idMedico as string);
+                const idMedico = parseInt(req.params.idMedico);
                 const result = await Medico.removerMedico(idMedico);
                 
                 if (result) {
@@ -103,7 +103,7 @@ export class MedicoController {
                 );
     
                 // Define o ID do Medico, que deve ser passado na query string
-                medico.setIdMedico(parseInt(req.query.idMedico as string));
+                medico.setIdMedico(parseInt(req.params.idMedico));
     
                 console.log(dadosRecebidos);
     
