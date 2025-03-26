@@ -23,7 +23,7 @@ export class Paciente {
     /* Endereço do Paciente */
     private endereco: string;
     /* status do Paciente */
-    private statusPaciente: boolean = true
+    private statusPaciente: boolean = true;
 
     /**
      * Construtor da classe Paciente
