@@ -39,25 +39,19 @@ INSERT INTO medico (id_medico, nome, especialidade, telefone, crm, email) VALUES
 
 
 
-
 CREATE TABLE Consulta (
     id_consulta SERIAL PRIMARY KEY,
 	nome VARCHAR(80) NOT NULL,
-    Data DATE NOT NULL,
-    Hora VARCHAR(10) NOT NULL,
-    Diagnostico VARCHAR(200),
+    data DATE NOT NULL,
+    hora VARCHAR(10) NOT NULL,
+    diagnostico VARCHAR(200),
     Receita VARCHAR(200),
     Sala_atendimento VARCHAR(10) NOT NULL,
-    Status VARCHAR(20)NOT NULL,
+    consulta_status VARCHAR(20)NOT NULL,
     id_paciente INT NOT NULL,
     id_medico INT NOT NULL,
-	status_consulta_registro INT NOT NULL DEFAULT TRUE
+	status_consulta_registro BOOLEAN NOT NULL DEFAULT TRUE
 );
-
-	ALTER TABLE consulta 
-ALTER COLUMN status_consulta_registro TYPE BOOLEAN 
-USING status_consulta_registro::BOOLEAN;
-
 
 INSERT INTO consulta (nome, data, hora, diagnostico, receita, sala_atendimento, status, id_paciente, id_medico, status_consulta_registro)
 VALUES

@@ -109,7 +109,7 @@ export class MedicoController {
     
                 // Chama o método para atualizar o cadastro do Medico no banco de dados
                 if (await Medico.atualizarCadastroMedico(medico)) {
-                    return res.status(200).json({ mensagem: "Cadastro atualizado com sucesso!" });
+                    return res.status(200).json({ mensagem: "Medico atualizado com sucesso!" });
                 } else {
                     return res.status(400).json('Não foi possível atualizar o Medico no banco de dados');
                 }

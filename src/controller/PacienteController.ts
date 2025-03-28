@@ -116,7 +116,7 @@ export class PacienteController {
 
             // Chama o método para atualizar o cadastro do paciente no banco de dados
             if (await Paciente.atualizarCadastroPaciente(paciente)) {
-                return res.status(200).json({ mensagem: "Paciente cadastro atualizado com sucesso!" });
+                return res.status(200).json({ mensagem: "Paciente atualizado com sucesso!" });
             } else {
                 return res.status(400).json('Não foi possível atualizar o paciente no banco de dados');
             }
