@@ -149,7 +149,7 @@ export class ConsultaController extends Consulta {
 
             // Chama o método para atualizar o cadastro do consulta no banco de dados
             if (await Consulta.atualizarCadastroConsulta(consulta)) {
-                return res.status(200).json({ mensagem: "Cadastro atualizado com sucesso!" });
+                return res.status(200).json({ mensagem: "Consulta atualizada com sucesso!" });
             } else {
                 return res.status(400).json('Não foi possível atualizar o consulta no banco de dados');
             }
