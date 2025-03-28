@@ -8,9 +8,10 @@ interface ConsultaDTO {
     diagnostico: string,
     receita: string,
     salaAtendimento: string,
-    status: string,
+    consultaStatus: string,
     idPaciente: number,
-    idMedico: number
+    idMedico: number,
+    statusConsultaRegistro: boolean
 }
 
 /**
@@ -72,7 +73,7 @@ export class ConsultaController extends Consulta {
                 consultaRecebida.diagnostico,
                 consultaRecebida.receita,
                 consultaRecebida.salaAtendimento,
-                consultaRecebida.status,
+                consultaRecebida.consultaStatus,
                 consultaRecebida.idPaciente,
                 consultaRecebida.idMedico
             );
@@ -102,7 +103,7 @@ export class ConsultaController extends Consulta {
     static async remover(req: Request, res: Response): Promise<any> {
         console.log("chegou");
         try {
-            const idConsulta = parseInt(req.query.idConsulta as string);
+            const idConsulta = parseInt(req.params.idConsulta);
             const result = await Consulta.removerConsulta(idConsulta);
 
             if (result) {
@@ -136,14 +137,14 @@ export class ConsultaController extends Consulta {
                 dadosRecebidos.diagnostico,
                 dadosRecebidos.receita,
                 dadosRecebidos.salaAtendimento,
-                dadosRecebidos.status,
+                dadosRecebidos.consultaStatus,
                 dadosRecebidos.idPaciente,
-                dadosRecebidos.idMedico
+                dadosRecebidos.idMedico,
             );
 
             // Define o ID do consulta, que deve ser passado na query string
-            consulta.setIdConsulta(parseInt(req.params.idPaciente));
-
+            consulta.setIdConsulta(parseInt(req.params.idConsulta));
+            
             console.log(dadosRecebidos);
 
             // Chama o método para atualizar o cadastro do consulta no banco de dados

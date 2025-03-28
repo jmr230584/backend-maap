@@ -338,6 +338,7 @@ public setStatusMedico(_statusMedico: boolean) {
                                         WHERE id_medico = ${medico.idMedico}`;
 
             // Executa a query de atualização e verifica se a operação foi bem-sucedida.
+            console.log(queryAtualizarMedico)
             await database.query(queryAtualizarMedico)
                 .then((result) => {
                     if (result.rowCount != 0) {

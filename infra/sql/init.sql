@@ -51,7 +51,7 @@ CREATE TABLE Consulta (
     Status VARCHAR(20)NOT NULL,
     id_paciente INT NOT NULL,
     id_medico INT NOT NULL,
-	status_consulta_registro INT NOT NULL
+	status_consulta_registro INT NOT NULL DEFAULT TRUE
 );
 
 	ALTER TABLE consulta 

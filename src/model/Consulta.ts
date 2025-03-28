@@ -48,7 +48,7 @@ export class Consulta {
     /**
      * Status da consulta (por exemplo, "agendada", "realizada", etc.).
      */
-    private status: string;
+    private consultaStatus: string;
 
     /**
      * Identificador do paciente.
@@ -82,7 +82,7 @@ export class Consulta {
         diagnostico: string,
         receita: string,
         salaAtendimento: string,
-        status: string,
+        consultaStatus: string,
         idPaciente: number,
         idMedico: number,
     ) {
@@ -92,7 +92,7 @@ export class Consulta {
         this.diagnostico = diagnostico;
         this.receita = receita;
         this.salaAtendimento = salaAtendimento;
-        this.status = status;
+        this.consultaStatus = consultaStatus;
         this.idPaciente = idPaciente;
         this.IdMedico = idMedico;
 
@@ -251,16 +251,16 @@ export class Consulta {
      * Recupera o status da consulta.
      * @returns O status da consulta.
      */
-    public getStatus(): string {
-        return this.status;
+    public getConsultaStatus(): string {
+        return this.consultaStatus;
     }
 
     /**
      * Define o status da consulta.
      * @param status O status da consulta.
      */
-    public setStatus(status: string): void {
-        this.status = status;
+    public setConsultaStatus(consultaStatus: string): void {
+        this.consultaStatus = consultaStatus;
     }
 
                /**
@@ -299,7 +299,7 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
 
         try {
             // query de consulta ao banco de dados
-            const querySelectConsulta = `SELECT * FROM medico WHERE status_consulta_registro = true;`;
+            const querySelectConsulta = `SELECT * FROM consulta WHERE status_consulta_registro = true;`;
 
             // fazendo a consulta e guardando a resposta
             const respostaBD = await database.query(querySelectConsulta);
@@ -314,7 +314,7 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
                     linha.diagnostico,
                     linha.receita,
                     linha.sala_atendimento,
-                    linha.status,
+                    linha.consulta_status,
                     linha.id_paciente,
                     linha.id_medico
                 );
@@ -325,6 +325,8 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
 
                 // adiciona o objeto na lista
                 listaDeConsulta.push(novoConsulta);
+
+                console.log(novoConsulta)
             });
 
             // retorna a lista de Consulta
@@ -354,7 +356,7 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
     static async cadastroConsulta(consulta: Consulta): Promise<boolean> {
         try {
             // query para fazer insert de um Consulta no banco de dados
-            const queryInsertConsulta = `INSERT INTO Consulta (nome, data, hora, diagnostico, receita, sala_atendimento, status, id_paciente, id_medico)
+            const queryInsertConsulta = `INSERT INTO Consulta (nome, data, hora, diagnostico, receita, sala_atendimento, consulta_status, id_paciente, id_medico)
                                         VALUES ( 
                                             '${consulta.getNome()}', 
                                             '${consulta.getData()}', 
@@ -362,10 +364,12 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
                                             '${consulta.getDiagnostico()}',
                                             '${consulta.getReceita()}',
                                             '${consulta.getSalaAtendimento()}',
-                                            '${consulta.getStatus()}',
+                                            '${consulta.getConsultaStatus()}',
                                             ${consulta.getIdPaciente()},
                                             ${consulta.getIdMedico()})
                                                RETURNING id_consulta;`;
+
+            console.log(queryInsertConsulta);
 
             // executa a query no banco e armazena a resposta
             const respostaBD = await database.query(queryInsertConsulta);
@@ -443,12 +447,13 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
                                                     diagnostico='${consulta.getDiagnostico()}',
                                                     receita='${consulta.getReceita()}',
                                                     sala_atendimento='${consulta.getSalaAtendimento()}',
-                                                    status='${consulta.getStatus()}',
-                                                    id_paciente='${consulta.getIdPaciente()}',
-                                                    id_medico='${consulta.getIdMedico()}'
-                                                WHERE id_consulta=${consulta.getIdConsulta()};`;
+                                                    consulta_status='${consulta.getConsultaStatus()}',
+                                                    id_paciente=${consulta.getIdPaciente()},
+                                                    id_medico=${consulta.getIdMedico()}                                                                                                     
+                                                WHERE id_consulta=${consulta.idConsulta};`;
     
                 // Executa a consulta de atualização
+                console.log(queryAtualizarConsulta);
                 await database.query(queryAtualizarConsulta)
                     .then((result) => {
                         if (result.rowCount != 0) {
