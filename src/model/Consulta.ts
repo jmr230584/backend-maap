@@ -58,7 +58,7 @@ export class Consulta {
     /**
      * Identificador do médico responsável pela consulta.
      */
-    private IdMedico: number;
+    private idMedico: number;
 
     /**
      * Identificador de status responsável pela consulta.
@@ -94,7 +94,7 @@ export class Consulta {
         this.salaAtendimento = salaAtendimento;
         this.consultaStatus = consultaStatus;
         this.idPaciente = idPaciente;
-        this.IdMedico = idMedico;
+        this.idMedico = idMedico;
 
         console.log(data);
     }
@@ -140,7 +140,7 @@ export class Consulta {
 * @returns O identificador da consulta.
 */
     public getIdMedico(): number {
-        return this.IdMedico;
+        return this.idMedico;
     }
 
     /**
@@ -148,7 +148,7 @@ export class Consulta {
      * @param idConsulta O identificador da consulta.
      */
     public setIdMedico(idMedico: number): void {
-        this.IdMedico = idMedico;
+        this.idMedico = idMedico;
     }
 
     /**
