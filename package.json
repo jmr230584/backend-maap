@@ -10,9 +10,10 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/cors": "^2.8.17",
+    "@types/cors": "^2.8.18",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.0",
+    "@types/multer": "^1.4.12",
     "@types/node": "^22.13.10",
     "@types/pg": "^8.11.11",
     "nodemon": "^3.1.9",
@@ -23,6 +24,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "multer": "^2.0.0",
     "pg": "^8.14.0",
     "prompt-sync": "^4.2.0",
     "typescript-require": "^0.3.0"
