@@ -65,7 +65,8 @@ VALUES
     nome VARCHAR(70) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
-    senha VARCHAR(50) NOT NULL
+    senha VARCHAR(50) NOT NULL,
+    imagem_perfil VARCHAR(100),
 );
 
 -- Criar a função gerar_senha_padrao apenas se não existir

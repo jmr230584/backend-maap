@@ -4,72 +4,65 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 /**
- * Classe que representa o modelo de banco de dados.
+ * Classe para estabelecer a conexão com o banco de dados postgres
  */
-export class DatabaseModel {
-    
-    /**
-     * Configuração para conexão com o banco de dados
-     */
-    private _config: object;
-
-    /**
-     * Pool de conexões com o banco de dados
-     */
+export class DataBaseModel {
+    private _config: pg.PoolConfig;
     private _pool: pg.Pool;
 
     /**
-     * Cliente de conexão com o banco de dados
-     */
-    private _client: pg.Client;
-
-    /**
-     * Construtor da classe DatabaseModel.
+     * Construtor da classe DatabaseModel
+     * Inicializa a configuração do pool de conexões com base nas variáveis de ambiente
      */
     constructor() {
-        // Configuração padrão para conexão com o banco de dados
         this._config = {
             user: process.env.DB_USER,
             host: process.env.DB_HOST,
             database: process.env.DB_NAME,
             password: process.env.DB_PASSWORD,
-            port: process.env.DB_PORT,
+            port: parseInt(process.env.DB_PORT as string),
             max: 10,
-            idleTimoutMillis: 10000
-        }
+            idleTimeoutMillis: 10000
+        };
 
-        // Inicialização do pool de conexões
         this._pool = new pg.Pool(this._config);
-
-        // Inicialização do cliente de conexão
-        this._client = new pg.Client(this._config);
     }
 
     /**
-     * Método para testar a conexão com o banco de dados.
-     *
-     * @returns *true* caso a conexão tenha sido feita, *false* caso negativo
+     * Obtém uma conexão de banco de dados com um usuário e senha específicos
+     * @param user Usuário do banco de dados
+     * @param password Senha do banco de dados
+     * @returns Uma conexão de banco de dados
+     */
+    public async getConnection(user: string, password: string) {
+        const config = {
+            ...this._config,
+            user: user,
+            password: password
+        };
+        return new pg.Pool(config).connect();
+    }
+
+    /**
+     * Testa a conexão com o banco de dados
+     * @returns Boolean indicando se a conexão foi bem-sucedida
      */
     public async testeConexao() {
         try {
-            // Tenta conectar ao banco de dados
-            await this._client.connect();
+            const client = await this._pool.connect();
             console.log('Database connected!');
-            // Encerra a conexão
-            this._client.end();
+            client.release(); // Liberar o cliente de volta ao pool
             return true;
         } catch (error) {
-            // Em caso de erro, exibe uma mensagem de erro
-            console.log('Error to connect database X( ');
-            console.log(error);
-            // Encerra a conexão
-            this._client.end();
+            console.error('Error connecting to database:');
+            console.error(error);
             return false;
         }
     }
 
     /**
-     * Getter para o pool de conexões.
+     * Getter para o pool de conexões do banco de dados
+     * @returns O pool de conexões do banco de dados
      */
     public get pool() {
         return this._pool;

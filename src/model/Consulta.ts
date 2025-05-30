@@ -1,7 +1,7 @@
-import { DatabaseModel } from "./DatabaseModel";
+import { DataBaseModel } from "./DataBaseModel";
 
 // Armazena o pool de conexões com o banco de dados
-const database = new DatabaseModel().pool;
+const database = new DataBaseModel().pool;
 
 /**
  * Classe que representa uma Consulta.

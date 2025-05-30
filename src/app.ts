@@ -1,17 +1,32 @@
-import { DatabaseModel } from "./model/DatabaseModel";
 import { server } from "./server";
+import dotenv from 'dotenv';
+import { DataBaseModel } from "./model/DataBaseModel";
 
-const port: number = 3333;
+/**
+ * Módulo para carregar as variáveis de ambiente
+ */
+dotenv.config();
 
-new DatabaseModel().testeConexao().then((resdb) => {
-    if(resdb){
-        console.log('Conexão com banco de dados realizada com sucesso.');
-        // iniciando o servidor
-        
-        server.listen(port, ()  => {
-            console.log(`Servidor iniciado no endereço http://localhost:${port}`);
+/**
+ * Configuração da porta do servidor
+ */
+const portEnv = process.env.SERVER_PORT;
+const port: number = portEnv ? parseInt(portEnv) : 3333;
+
+if (isNaN(port) || port < 0 || port > 65535) {
+    throw new Error(`Porta inválida: "${portEnv}". Defina SERVER_PORT corretamente no .env`);
+}
+
+/**
+ * Inicia o servidor após a verificação de conexão com o banco de dados
+ */
+new DataBaseModel().testeConexao().then((resbd) => {
+    console.clear();
+    if (resbd) {
+        server.listen(port, () => {
+            console.info(`Servidor executando no endereço http://localhost:${port}/`);
         });
-    } else{
-        console.log('Erro ao conectar ao banco de dados.');
+    } else {
+        console.log(`Não foi possível conectar ao banco de dados`);
     }
 });

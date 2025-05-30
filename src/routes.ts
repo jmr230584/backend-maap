@@ -1,10 +1,14 @@
-import { Request, Response, Router } from "express";
+import express, { Request, Response } from "express"; // Importa o express e os tipos necessários
 import { MedicoController } from "./controller/MedicoController";
 import { ConsultaController } from "./controller/ConsultaController";
 import { PacienteController } from "./controller/PacienteController";
+import  UsuarioController  from './controller/UsuarioController';
+import { SERVER_ROUTES } from '../src/appConfig'; // Importa as rotas definidas no arquivo appConfig
+import { uploadCapa } from './config/multerConfig';
+// ...existing code...
 
 // Cria um roteador
-const router = Router();
+const router = express.Router();
 // Criando uma rota principal para a aplicação
 router.get("/", (req: Request, res: Response) => {
     res.json({ mensagem: "Olá, Mundo!" });
@@ -49,7 +53,8 @@ router.put("/remover/consulta/:idConsulta", ConsultaController.remover);
 router.put("/atualizar/consulta/:idConsulta", ConsultaController.atualizar);
 
 
-// Exportando as rotas
-export { router };
-// Criando sua rota principal para a aplicação
+router.get(SERVER_ROUTES.LISTAR_USUARIOS, UsuarioController.todos);
+router.post(SERVER_ROUTES.NOVO_USUARIO, uploadCapa.single('imagemPerfil'), UsuarioController.cadastrar);
+
+export { router }
 
