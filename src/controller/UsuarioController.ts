@@ -28,17 +28,17 @@ class UsuarioController extends Usuario {
      * @returns Mensagem de sucesso ou erro em formato JSON.
      */
 
-     static async todos(req: Request, res: Response) {
-            try {
-                const listaDeUsuarios = await Usuario.listarUsuarios();
-    
-                res.status(200).json(listaDeUsuarios);
-            } catch (error) {
-                console.log(`Erro ao acessar método herdado: ${error}`);
-    
-                res.status(400).json("Erro ao recuperar as informações do Usuario");
-            }
+    static async todos(req: Request, res: Response) {
+        try {
+            const listaDeUsuarios = await Usuario.listarUsuarios();
+
+            res.status(200).json(listaDeUsuarios);
+        } catch (error) {
+            console.log(`Erro ao acessar método herdado: ${error}`);
+
+            res.status(400).json("Erro ao recuperar as informações do Usuario");
         }
+    }
 
     static async cadastrar(req: Request, res: any) {
         try {

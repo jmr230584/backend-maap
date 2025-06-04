@@ -26,7 +26,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^2.0.0",
+    "multer": "^2.0.1",
     "pg": "^8.14.0",
     "prompt-sync": "^4.2.0",
     "typescript-require": "^0.3.0"

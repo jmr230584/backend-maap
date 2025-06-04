@@ -94,7 +94,6 @@ export class PacienteController {
 
 
     static async atualizar(req: Request, res: Response): Promise<any> {
-        console.log("CHEGREI BRASIL")
         try {
             // Desestruturando objeto recebido pelo front-end
             const PacienteRecebido: PacienteDTO = req.body;
