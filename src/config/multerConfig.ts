@@ -33,21 +33,36 @@ const storage = multer.diskStorage({
 });
 
 // Cria o middleware de upload com a configuração de armazenamento definida
-export const upload = multer({ storage });
+export const uploadPerfil = multer({ storage });
 
+// Define a configuração de armazenamento dos arquivos
 const storageCapa = multer.diskStorage({
+  // Define o diretório onde os arquivos enviados serão salvos
   destination: (req, file, cb) => {
-      cb(null, path.resolve(__dirname, '..', '..', 'uploads/cover'));
+    cb(null, path.resolve(__dirname, '..', '..', 'uploads/cover')); // Caminho absoluto até a pasta "uploads"
   },
-  filename: (req: Request, file, cb) => {
-      const ext = path.extname(file.originalname);
-      const nomeGerado = `${gerarNomeArquivoAleatorio()}${ext}`;
 
-      // 👇 Salva o nome no objeto da requisição
-      (req as any).nomeImagemCapa = nomeGerado;
+  // Define o nome do arquivo que será salvo
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname); // Extrai a extensão original do arquivo
 
-      cb(null, nomeGerado);
+    // Tenta obter o UUID do usuário da requisição
+    const titulo = (req.body?.titulo);
+    const editora = (req.body?.editora);
+
+    const sanitize = (texto: string) => texto
+      .replace(/[^a-zA-Z0-9-_ ]/g, '') // remove caracteres especiais (exceto espaço, hífen e underscore)
+      .replace(/ /g, "_");             // troca espaços por underscores
+
+    const tituloSanitizado = sanitize(titulo);
+    const editoraSanitizada = sanitize(editora);
+
+    // Cria o nome final do arquivo: uuid-hash-nomeOriginal.ext
+    const filename = `${tituloSanitizado}-${editoraSanitizada}-${file.originalname}`;
+
+    cb(null, filename); // Retorna o nome para o multer salvar
   }
 });
-// Cria o middleware de upload com a configuração de armazenamento definida para capas
+
+// Cria o middleware de upload com a configuração de armazenamento definida
 export const uploadCapa = multer({ storage: storageCapa });

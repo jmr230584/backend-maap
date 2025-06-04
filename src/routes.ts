@@ -4,7 +4,7 @@ import { ConsultaController } from "./controller/ConsultaController";
 import { PacienteController } from "./controller/PacienteController";
 import  UsuarioController  from './controller/UsuarioController';
 import { SERVER_ROUTES } from '../src/appConfig'; // Importa as rotas definidas no arquivo appConfig
-import { uploadCapa } from './config/multerConfig';
+import { uploadPerfil } from './config/multerConfig';
 // ...existing code...
 
 // Cria um roteador
@@ -54,7 +54,7 @@ router.put("/atualizar/consulta/:idConsulta", ConsultaController.atualizar);
 
 
 router.get(SERVER_ROUTES.LISTAR_USUARIOS, UsuarioController.todos);
-router.post(SERVER_ROUTES.NOVO_USUARIO, uploadCapa.single('imagemPerfil'), UsuarioController.cadastrar);
+router.post(SERVER_ROUTES.NOVO_USUARIO, uploadPerfil.single('imagemPerfil'), UsuarioController.cadastrar);
 
 export { router }
 
