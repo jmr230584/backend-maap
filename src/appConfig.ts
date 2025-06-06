@@ -1,18 +1,18 @@
 const SERVER_ROUTES = {
-    NOVO_PACIENTE: '/cadastro/paciente',
-    ATUALIZAR_PACIENTE: '/atualizar/paciente',
-    REMOVER_PACIENTE: '/remover/paciente',
-    LISTAR_PACIENTES: '/listar/pacientes',
-
-    NOVO_MEDICO: '/cadastro/medico',
-    ATUALIZAR_MEDICO: '/atualizar/medico',
-    REMOVER_MEDICO: '/remover/medico',
     LISTAR_MEDICOS: '/listar/medicos',
+    NOVO_MEDICO: '/cadastro/medico',
+    REMOVER_MEDICO: '/remover/medico',
+    ATUALIZAR_MEDICO: '/atualizar/medico',
+ 
+    LISTAR_PACIENTES: '/listar/pacientes',
+    NOVO_PACIENTE: '/cadastro/paciente',
+    REMOVER_PACIENTE: '/remover/paciente',
+    ATUALIZAR_PACIENTE: '/atualizar/paciente',
 
-    NOVA_CONSULTA: '/cadastro/consulta',
-    ATUALIZAR_CONSULTA: '/atualizar/consulta',
-    REMOVER_CONSULTA: '/remover/consulta',
     LISTAR_CONSULTAS: '/listar/consultas',
+    NOVA_CONSULTA: '/cadastro/consulta',
+    REMOVER_CONSULTA: '/remover/consulta',
+    ATUALIZAR_CONSULTA: '/atualizar/consulta',
 
     NOVO_USUARIO: '/cadastro/usuario',
     ATUALIZAR_USUARIO: '/atualizar/usuario',

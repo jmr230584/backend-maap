@@ -18,39 +18,39 @@ router.get("/", (req: Request, res: Response) => {
 * ROTAS PARA MÉDICOS
 */ 
 // Rota para listar os médicos
-router.get("/listar/medico", MedicoController.todos);
+router.get(SERVER_ROUTES.LISTAR_MEDICOS, MedicoController.todos);
 // Rota para cadastrar um novo médico
-router.post("/cadastro/medico", MedicoController.novo);
+router.post(SERVER_ROUTES.NOVO_MEDICO, MedicoController.novo);
 // Rota para deletar um novo médico
-router.put("/remover/medico/:idMedico", MedicoController.remover);
+router.put(SERVER_ROUTES.REMOVER_MEDICO, MedicoController.remover);
 // Rota para atualizar um novo médico
-router.put("/atualizar/medico/:idMedico", MedicoController.atualizar);
+router.put(SERVER_ROUTES.ATUALIZAR_MEDICO, MedicoController.atualizar);
 
 
 /* 
 * ROTAS PARA PACIENTES
 */ 
 // Rota para listar os pacientes
-router.get("/listar/paciente", PacienteController.todos);
+router.get(SERVER_ROUTES.LISTAR_PACIENTES, PacienteController.todos);
 // Rota para cadastrar um novo paciente
-router.post("/cadastro/paciente", PacienteController.novo);
+router.post(SERVER_ROUTES.NOVO_PACIENTE, PacienteController.novo);
 // Rota para deletar um novo paciente
-router.put("/remover/paciente/:idPaciente", PacienteController.remover);
+router.put(SERVER_ROUTES.REMOVER_PACIENTE, PacienteController.remover);
 // Rota para atualizar um novo paciente
-router.put("/atualizar/paciente/:idPaciente", PacienteController.atualizar);
+router.put(SERVER_ROUTES.ATUALIZAR_PACIENTE, PacienteController.atualizar);
 
 
 /* 
 * ROTAS PARA CONSULTAS
 */ 
 // Rota para listar as consultas
-router.get("/listar/consulta", ConsultaController.todos);
+router.get(SERVER_ROUTES.LISTAR_CONSULTAS, ConsultaController.todos);
 // Rota para cadastrar uma nova consulta
-router.post("/cadastro/consulta", ConsultaController.novo);
+router.post(SERVER_ROUTES.NOVA_CONSULTA, ConsultaController.novo);
 // Rota para deltar uma nova consulta
-router.put("/remover/consulta/:idConsulta", ConsultaController.remover);
+router.put(SERVER_ROUTES.REMOVER_CONSULTA, ConsultaController.remover);
 // Rota para atualizar uma nova consulta
-router.put("/atualizar/consulta/:idConsulta", ConsultaController.atualizar);
+router.put(SERVER_ROUTES.ATUALIZAR_CONSULTA, ConsultaController.atualizar);
 
 
 router.get(SERVER_ROUTES.LISTAR_USUARIOS, UsuarioController.todos);
