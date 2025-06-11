@@ -2,10 +2,8 @@ import express, { Request, Response } from "express"; // Importa o express e os 
 import { MedicoController } from "./controller/MedicoController";
 import { ConsultaController } from "./controller/ConsultaController";
 import { PacienteController } from "./controller/PacienteController";
-import  UsuarioController  from './controller/UsuarioController';
-import { SERVER_ROUTES } from '../src/appConfig'; // Importa as rotas definidas no arquivo appConfig
-import { uploadPerfil } from './config/multerConfig';
-import { Auth } from './util/Auth'; // Importa o middleware de autenticação
+import { Auth } from './util/Auth';
+
 // ...existing code...
 
 // Cria um roteador
@@ -19,46 +17,43 @@ router.get("/", (req: Request, res: Response) => {
 * ROTAS PARA MÉDICOS
 */ 
 // Rota para listar os médicos
-router.get("/listar/medicos", MedicoController.todos);
+router.get("/listar/medicos", Auth.verifyToken, MedicoController.todos);
 // Rota para cadastrar um novo médico
-router.post("/cadastro/medico", MedicoController.novo);
+router.post("/cadastro/medico", Auth.verifyToken, MedicoController.novo);
 // Rota para deletar um novo médico
-router.put("/remover/medico/:idMedico", MedicoController.remover);
+router.put("/remover/medico/:idMedico", Auth.verifyToken, MedicoController.remover);
 // Rota para atualizar um novo médico
-router.put("/atualizar/medico/:idMedico", MedicoController.atualizar);
+router.put("/atualizar/medico/:idMedico", Auth.verifyToken, MedicoController.atualizar);
 
 
 /* 
 * ROTAS PARA PACIENTES
 */ 
 // Rota para listar os pacientes
-router.get("/listar/pacientes", PacienteController.todos);
+router.get("/listar/pacientes", Auth.verifyToken, PacienteController.todos);
 // Rota para cadastrar um novo paciente
-router.post("/cadastro/paciente", PacienteController.novo);
+router.post("/cadastro/paciente", Auth.verifyToken, PacienteController.novo);
 // Rota para deletar um novo paciente
-router.put("/remover/paciente/:idPaciente", PacienteController.remover);
+router.put("/remover/paciente/:idPaciente", Auth.verifyToken, PacienteController.remover);
 // Rota para atualizar um novo paciente
-router.put("/atualizar/paciente/:idPaciente", PacienteController.atualizar);
+router.put("/atualizar/paciente/:idPaciente", Auth.verifyToken, PacienteController.atualizar);
 
 
 /* 
 * ROTAS PARA CONSULTAS
 */ 
 // Rota para listar as consultas
-router.get("/listar/consultas", ConsultaController.todos);
+router.get("/listar/consultas", Auth.verifyToken, ConsultaController.todos);
 // Rota para cadastrar uma nova consulta
-router.post("/cadastro/consulta", ConsultaController.novo);
+router.post("/cadastro/consulta", Auth.verifyToken, ConsultaController.novo);
 // Rota para deltar uma nova consulta
-router.put("/remover/consulta/:idConsulta", ConsultaController.remover);
-// Rota para atualizar uma nova consulta
-router.put("/atualizar/consulta/:idConsulta", ConsultaController.atualizar);
+router.put("/remover/consulta/:idConsulta", Auth.verifyToken, ConsultaController.remover);
+// Rota para atualizar uma nova consulta 
+router.put("/atualizar/consulta/:idConsulta", Auth.verifyToken, ConsultaController.atualizar);
 
 
-router.get("/listar/usuarios", UsuarioController.todos);
-router.post("/cadastro/usuario", uploadPerfil.single('imagemPerfil'), UsuarioController.cadastrar);
-
-router.get('/rota-protegida', Auth.verifyToken, (req: Request, res: Response) => { res.send('Rota protegida, se você está vendo essa mensagem é porque está autenticado no sistema') });
 router.post('/login', Auth.validacaoUsuario);
+router.get('/rota-protegida', Auth.verifyToken, (req: Request, res: Response) => { res.send('Rota protegida, se você está vendo essa mensagem é porque está autenticado no sistema') });
 
 
 export { router }

@@ -1,6 +1,6 @@
 import { server } from "./server";
 import dotenv from 'dotenv';
-import { DataBaseModel } from "./model/DataBaseModel";
+import { DatabaseModel } from "./model/DatabaseModel";
 
 /**
  * Módulo para carregar as variáveis de ambiente
@@ -20,7 +20,7 @@ if (isNaN(port) || port < 0 || port > 65535) {
 /**
  * Inicia o servidor após a verificação de conexão com o banco de dados
  */
-new DataBaseModel().testeConexao().then((resbd) => {
+new DatabaseModel().testeConexao().then((resbd) => {
     console.clear();
     if (resbd) {
         server.listen(port, () => {

@@ -1,7 +1,7 @@
 
-import { DataBaseModel } from "./DataBaseModel";
+import { DatabaseModel } from "./DatabaseModel";
 
-const database = new DataBaseModel().pool;
+const database = new DatabaseModel().pool;
 
 /**
  * Classe que representa um médico.

@@ -6,7 +6,7 @@ dotenv.config();
 /**
  * Classe para estabelecer a conexão com o banco de dados postgres
  */
-export class DataBaseModel {
+export class DatabaseModel {
     private _config: pg.PoolConfig;
     private _pool: pg.Pool;
 

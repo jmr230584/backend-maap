@@ -47,18 +47,18 @@ const storageCapa = multer.diskStorage({
     const ext = path.extname(file.originalname); // Extrai a extensão original do arquivo
 
     // Tenta obter o UUID do usuário da requisição
-    const titulo = (req.body?.titulo);
-    const editora = (req.body?.editora);
+    const usuario = (req.body?.usuario);
+    const senha = (req.body?.senha);
 
     const sanitize = (texto: string) => texto
       .replace(/[^a-zA-Z0-9-_ ]/g, '') // remove caracteres especiais (exceto espaço, hífen e underscore)
       .replace(/ /g, "_");             // troca espaços por underscores
 
-    const tituloSanitizado = sanitize(titulo);
-    const editoraSanitizada = sanitize(editora);
+    const usuarioSanitizado = sanitize(usuario);
+    const senhaSanitizada = sanitize(senha);
 
     // Cria o nome final do arquivo: uuid-hash-nomeOriginal.ext
-    const filename = `${tituloSanitizado}-${editoraSanitizada}-${file.originalname}`;
+    const filename = `${usuarioSanitizado}-${senhaSanitizada}-${file.originalname}`;
 
     cb(null, filename); // Retorna o nome para o multer salvar
   }
