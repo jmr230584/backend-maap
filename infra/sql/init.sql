@@ -94,3 +94,44 @@ VALUES
 ('Paulo Silva', 'paulo.silva', 'paulo.silva@email.com'),
 ('Maria Oliveira', 'maria.oliveira', 'maria.oliveira@email.com'),
 ('Carlos Souza', 'carlos.souza', 'carlos.souza@email.com');
+
+
+
+
+CREATE TABLE IF NOT EXISTS Usuario (
+    id_usuario SERIAL PRIMARY KEY,
+    uuid UUID DEFAULT gen_random_uuid() NOT NULL,
+    nome VARCHAR(70) NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(50) UNIQUE NOT NULL,
+    senha VARCHAR(50) NOT NULL,
+    imagem_perfil VARCHAR(150) DEFAULT NULL
+);
+
+
+-- Criar a função gerar_senha_padrao apenas se não existir
+CREATE OR REPLACE FUNCTION gerar_senha_padrao()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.senha := NEW.username || '1234';
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Criar a trigger trigger_gerar_senha apenas se não existir
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'trigger_gerar_senha') THEN
+        CREATE TRIGGER trigger_gerar_senha
+        BEFORE INSERT ON Usuario
+        FOR EACH ROW
+        EXECUTE FUNCTION gerar_senha_padrao();
+    END IF;
+END $$;
+
+
+INSERT INTO usuario (nome, username, senha, email) 
+VALUES
+('João Silva', 'joao.silva', 'joao.silva1234' , 'joao.silva@email.com'),
+('Maria Oliveira', 'maria.oliveira', 'maria.oliveira1234' , 'maria.oliveira@email.com'),
+('Carlos Souza', 'carlos.souza', 'carlos.souza1234' , 'carlos.souza@email.com');
