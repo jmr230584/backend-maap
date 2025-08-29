@@ -29,6 +29,7 @@
     "multer": "^2.0.2",
     "pg": "^8.16.3",
     "prompt-sync": "^4.2.0",
+    "swagger-autogen": "^2.23.7",
     "typescript-require": "^0.3.0"
   },
   "directories": {
