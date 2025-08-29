@@ -13,11 +13,11 @@ const SERVER_ROUTES = {
     NOVA_CONSULTA: '/cadastro/consulta',
     REMOVER_CONSULTA: '/remover/consulta/:idConsulta',
     ATUALIZAR_CONSULTA: '/atualizar/consulta/:idConsulta',
-
-    LISTAR_USUARIOS: '/listar/usuarios',
-    NOVO_USUARIO: '/cadastro/usuario',
-    REMOVER_USUARIO: '/remover/usuario/:idUsuario',
-    ATUALIZAR_USUARIO: '/atualizar/usuario/:idUsuario',
+    
+    NOVO_USUARIO: '/novo/usuario',
+    ATUALIZAR_USUARIO: '/atualiza/usuario',
+    REMOVER_USUARIO: '/remove/usuario',
+    LISTAR_USUARIOS: '/lista/usuarios',
     
    
     

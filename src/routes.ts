@@ -2,7 +2,12 @@ import express, { Request, Response } from "express"; // Importa o express e os 
 import { MedicoController } from "./controller/MedicoController";
 import { ConsultaController } from "./controller/ConsultaController";
 import { PacienteController } from "./controller/PacienteController";
+import UsuarioController from "./controller/UsuarioController";
+
 import { Auth } from './util/Auth';
+import multer from 'multer';
+
+const upload = multer({ dest: 'uploads/' });
 
 // ...existing code...
 
@@ -50,6 +55,9 @@ router.post("/cadastro/consulta", Auth.verifyToken, ConsultaController.novo);
 router.put("/remover/consulta/:idConsulta", Auth.verifyToken, ConsultaController.remover);
 // Rota para atualizar uma nova consulta 
 router.put("/atualizar/consulta/:idConsulta", Auth.verifyToken, ConsultaController.atualizar);
+
+router.post("/novo/usuario", upload.single('imagemPerfil'), UsuarioController.novo);
+router.get("/lista/usuarios", UsuarioController.todos);
 
 
 router.post('/login', Auth.validacaoUsuario);
