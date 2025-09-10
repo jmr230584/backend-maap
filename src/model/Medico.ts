@@ -33,7 +33,7 @@ export class Medico {
     /**
      * Telefone do médico.
      */
-    private telefone: number;
+    private telefone: string;
 
     /**
      * Email do médico. 
@@ -58,7 +58,7 @@ export class Medico {
         nome: string,
         especialidade: string,
         crm: string,
-        telefone: number,
+        telefone: string,
         email: string
     ) {
         this.nome = nome;
@@ -138,7 +138,7 @@ export class Medico {
      * Recupera o telefone do médico.
      * @returns O telefone do médico.
      */
-    public getTelefone(): number {
+    public getTelefone(): string {
         return this.telefone;
     }
 
@@ -146,7 +146,7 @@ export class Medico {
      * Define o telefone do médico.
      * @param telefone O telefone do médico.
      */
-    public setTelefone(telefone: number): void {
+    public setTelefone(telefone: string): void {
         this.telefone = telefone;
     }
 

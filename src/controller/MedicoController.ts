@@ -5,7 +5,7 @@ interface MedicoDTO {
     nome: string,
     especialidade: string,
     crm: string,
-    telefone: number,
+    telefone: string,
     email: string
 }
 
