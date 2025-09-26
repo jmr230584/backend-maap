@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Paciente } from "../model/Paciente";
 
 interface PacienteDTO {
+    idPaciente?: number,
     nome: string,
     cpf: string,
     telefone: string,
@@ -77,7 +78,7 @@ export class PacienteController {
 
     static async remover(req: Request, res: Response): Promise<any> {
         try {
-            const idPaciente = parseInt(req.params.idPaciente);
+            const idPaciente = parseInt(req.query.idPaciente as string);
             const result = await Paciente.removerPaciente(idPaciente);
             
             if (result) {

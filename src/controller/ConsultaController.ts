@@ -103,7 +103,7 @@ export class ConsultaController extends Consulta {
     static async remover(req: Request, res: Response): Promise<any> {
         console.log("chegou");
         try {
-            const idConsulta = parseInt(req.params.idConsulta);
+            const idConsulta = parseInt(req.query.idConsulta as string);
             const result = await Consulta.removerConsulta(idConsulta);
 
             if (result) {
