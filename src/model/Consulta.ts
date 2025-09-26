@@ -87,7 +87,7 @@ export class Consulta {
         idMedico: number,
     ) {
         this.nome = nome;
-        this.data = data; 
+        this.data = data;
         this.hora = hora;
         this.diagnostico = diagnostico;
         this.receita = receita;
@@ -95,10 +95,8 @@ export class Consulta {
         this.consultaStatus = consultaStatus;
         this.idPaciente = idPaciente;
         this.idMedico = idMedico;
-
-        console.log(data);
     }
-    
+
 
     /* Métodos get e set */
 
@@ -263,24 +261,24 @@ export class Consulta {
         this.consultaStatus = consultaStatus;
     }
 
-               /**
+    /**
 * Retorna o statusConsultaRegistro no sistema
 * 
 * @return status do Consulta do sistema 
 */
-public getStatusConsultaRegistro(): boolean {
-    return this.statusConsultaRegistro;
-}
+    public getStatusConsultaRegistro(): boolean {
+        return this.statusConsultaRegistro;
+    }
 
 
-/**
- * Atribui um valoro statusConsultaRegistro do Consulta
- * 
- * @param _statusConsultaRegistro : statusConsultaRegistro do Consulta
- */
-public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
-    this.statusConsultaRegistro = statusConsultaRegistro;
-}
+    /**
+     * Atribui um valoro statusConsultaRegistro do Consulta
+     * 
+     * @param _statusConsultaRegistro : statusConsultaRegistro do Consulta
+     */
+    public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
+        this.statusConsultaRegistro = statusConsultaRegistro;
+    }
 
 
 
@@ -325,8 +323,6 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
 
                 // adiciona o objeto na lista
                 listaDeConsulta.push(novoConsulta);
-
-                console.log(novoConsulta)
             });
 
             // retorna a lista de Consulta
@@ -369,13 +365,9 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
                                             ${consulta.getIdMedico()})
                                                RETURNING id_consulta;`;
 
-            console.log(queryInsertConsulta);
-
             // executa a query no banco e armazena a resposta
             const respostaBD = await database.query(queryInsertConsulta);
-
-            console.log(respostaBD)
-
+            
             // verifica se a quantidade de linhas modificadas é diferente de 0
             if (respostaBD.rowCount != 0) {
                 console.log(`Consulta cadastrado com sucesso! ID da Consulta: ${respostaBD.rows[0].id_consulta}`);
@@ -404,43 +396,48 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
          * @param id_consulta Identificador único do consulta a ser removido
          * @returns {Promise<boolean>} Retorna true se a operação foi bem-sucedida, e false em caso de erro.
          */
-        static async removerConsulta(id_consulta: number): Promise<Boolean> {
-            let queryResult = false;
-    
-            try {
-                // Atualiza o status da consulta para indicar que o Consulta não está mais ativo
-                const queryDeleteConsulta = `UPDATE consulta 
+    static async removerConsulta(id_consulta: number): Promise<Boolean> {
+        let queryResult = false;
+
+        console.log('remove essa porra');
+
+        try {
+            // Atualiza o status da consulta para indicar que o Consulta não está mais ativo
+            const queryDeleteConsulta = `UPDATE consulta 
                                                     SET status_consulta_registro = FALSE
                                                     WHERE id_consulta=${id_consulta};`;
-    
-                // Executa a atualização de status do Consulta
-                await database.query(queryDeleteConsulta)
-                    .then((result) => {
-                        if (result.rowCount != 0) {
-                            queryResult = true; // Operação bem-sucedida
-                        }
-                    });
-    
-                return queryResult; // Retorna o resultado da operação
-    
-            } catch (error) {
-                console.log(`Erro na consulta: ${error}`);
-                return queryResult; // Retorna false em caso de erro
-            }
+
+            console.log(queryDeleteConsulta);
+
+            // Executa a atualização de status do Consulta
+            await database.query(queryDeleteConsulta)
+                .then((result) => {
+                    if (result.rowCount != 0) {
+                        queryResult = true; // Operação bem-sucedida
+                    }
+                });
+
+                console.log(queryResult);
+            return queryResult; // Retorna o resultado da operação
+
+        } catch (error) {
+            console.log(`Erro na consulta: ${error}`);
+            return queryResult; // Retorna false em caso de erro
         }
-    
-        /**
-         * Atualiza os dados de um Consulta no banco de dados.
-         * 
-         * @param consulta Objeto do tipo Consulta com os novos dados
-         * @returns {boolean} Retorna true em caso de sucesso, false em caso de erro
-         */
-        static async atualizarCadastroConsulta(consulta: Consulta): Promise<Boolean> {
-            let queryResult = false; // Variável para armazenar o resultado da operação.
-    
-            try {
-                // Consulta SQL para atualizar os dados do paciente
-                const queryAtualizarConsulta = `UPDATE consulta
+    }
+
+    /**
+     * Atualiza os dados de um Consulta no banco de dados.
+     * 
+     * @param consulta Objeto do tipo Consulta com os novos dados
+     * @returns {boolean} Retorna true em caso de sucesso, false em caso de erro
+     */
+    static async atualizarCadastroConsulta(consulta: Consulta): Promise<Boolean> {
+        let queryResult = false; // Variável para armazenar o resultado da operação.
+
+        try {
+            // Consulta SQL para atualizar os dados do paciente
+            const queryAtualizarConsulta = `UPDATE consulta
                                                 SET nome='${consulta.getNome()}',
                                                     data='${consulta.getData()}',
                                                     hora='${consulta.getHora()}',
@@ -451,21 +448,21 @@ public setStatusConsultaRegistro(statusConsultaRegistro: boolean) {
                                                     id_paciente=${consulta.getIdPaciente()},
                                                     id_medico=${consulta.getIdMedico()}                                                                                                     
                                                 WHERE id_consulta=${consulta.idConsulta};`;
-    
-                // Executa a consulta de atualização
-                console.log(queryAtualizarConsulta);
-                await database.query(queryAtualizarConsulta)
-                    .then((result) => {
-                        if (result.rowCount != 0) {
-                            queryResult = true; // Operação bem-sucedida
-                        }
-                    });
-    
-                return queryResult; // Retorna o resultado da operação
-    
-            } catch (error) {
-                console.log(`Erro na consulta: ${error}`);
-                return queryResult; // Retorna false em caso de erro
-            }
+
+            // Executa a consulta de atualização
+            console.log(queryAtualizarConsulta);
+            await database.query(queryAtualizarConsulta)
+                .then((result) => {
+                    if (result.rowCount != 0) {
+                        queryResult = true; // Operação bem-sucedida
+                    }
+                });
+
+            return queryResult; // Retorna o resultado da operação
+
+        } catch (error) {
+            console.log(`Erro na consulta: ${error}`);
+            return queryResult; // Retorna false em caso de erro
         }
+    }
 }

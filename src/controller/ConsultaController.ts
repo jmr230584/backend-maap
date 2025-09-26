@@ -77,7 +77,6 @@ export class ConsultaController extends Consulta {
                 consultaRecebida.idPaciente,
                 consultaRecebida.idMedico
             );
-            console.log(novoConsulta)
 
             // Chama a função de cadastro passando o objeto como parâmetro
             const repostaClasse = await Consulta.cadastroConsulta(novoConsulta);
@@ -101,9 +100,8 @@ export class ConsultaController extends Consulta {
     }
 
     static async remover(req: Request, res: Response): Promise<any> {
-        console.log("chegou");
         try {
-            const idConsulta = parseInt(req.query.idConsulta as string);
+            const idConsulta = parseInt(req.params.idConsulta as string);
             const result = await Consulta.removerConsulta(idConsulta);
 
             if (result) {
@@ -144,8 +142,6 @@ export class ConsultaController extends Consulta {
 
             // Define o ID do consulta, que deve ser passado na query string
             consulta.setIdConsulta(parseInt(req.params.idConsulta));
-            
-            console.log(dadosRecebidos);
 
             // Chama o método para atualizar o cadastro do consulta no banco de dados
             if (await Consulta.atualizarCadastroConsulta(consulta)) {
