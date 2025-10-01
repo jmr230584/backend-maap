@@ -398,9 +398,6 @@ export class Consulta {
          */
     static async removerConsulta(id_consulta: number): Promise<Boolean> {
         let queryResult = false;
-
-        console.log('remove essa porra');
-
         try {
             // Atualiza o status da consulta para indicar que o Consulta não está mais ativo
             const queryDeleteConsulta = `UPDATE consulta 
