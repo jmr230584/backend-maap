@@ -298,6 +298,7 @@ public setStatusPaciente(statusPaciente: boolean) {
             const queryDeleteConsultaPaciente = `UPDATE consulta 
                                                 SET status_consulta_registro = FALSE
                                                 WHERE id_paciente=${id_paciente};`;
+            console.log(queryDeleteConsultaPaciente);
 
             // Executa a atualização de status das consultas associadas ao paciente
             await database.query(queryDeleteConsultaPaciente);
@@ -306,6 +307,7 @@ public setStatusPaciente(statusPaciente: boolean) {
             const queryDeletePaciente = `UPDATE paciente 
                                          SET status_paciente = FALSE
                                          WHERE id_paciente=${id_paciente};`;
+            console.log(queryDeletePaciente);
 
             // Executa a atualização de status do paciente
             await database.query(queryDeletePaciente)
@@ -332,6 +334,13 @@ public setStatusPaciente(statusPaciente: boolean) {
     static async atualizarCadastroPaciente(paciente: Paciente): Promise<Boolean> {
         let queryResult = false; // Variável para armazenar o resultado da operação.
 
+        // Validação do idPaciente
+        const idPaciente = paciente.getIdPaciente();
+        if (typeof idPaciente !== 'number' || isNaN(idPaciente) || idPaciente <= 0) {
+            console.log('ID do paciente inválido:', idPaciente);
+            return false;
+        }
+
         try {
             // Consulta SQL para atualizar os dados do paciente
             const queryAtualizarPaciente = `UPDATE paciente
@@ -341,7 +350,7 @@ public setStatusPaciente(statusPaciente: boolean) {
                                                 email='${paciente.getEmail()}',
                                                 data_nascimento='${paciente.getDataNascimento()}',
                                                 endereco='${paciente.getEndereco()}'
-                                            WHERE id_paciente=${paciente.getIdPaciente()};`;
+                                            WHERE id_paciente=${idPaciente};`;
 
             // Executa a consulta de atualização
             await database.query(queryAtualizarPaciente)
