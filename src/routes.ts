@@ -54,7 +54,7 @@ router.post("/cadastro/consulta", Auth.verifyToken, ConsultaController.novo);
 // Rota para deltar uma nova consulta
 router.put("/remover/consulta/:idConsulta", Auth.verifyToken, ConsultaController.remover);
 // Rota para atualizar uma nova consulta 
-router.put("/atualizar/consulta", Auth.verifyToken, ConsultaController.atualizar);
+router.put("/atualizar/consulta/:idConsulta", Auth.verifyToken, ConsultaController.atualizar);
 
 router.post("/novo/usuario", upload.single('imagemPerfil'), UsuarioController.novo);
 router.get("/lista/usuarios", UsuarioController.todos);
