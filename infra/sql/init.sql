@@ -22,7 +22,7 @@ INSERT INTO Paciente (nome, cpf, telefone, email, data_nascimento, endereco) VAL
 CREATE TABLE Medico (
     id_medico SERIAL PRIMARY KEY,
 	nome VARCHAR (80) NOT NULL,
-    especialidade VARCHAR (20) NOT NULL,
+    especialidade VARCHAR (20),
     crm VARCHAR (20) NOT NULL,
 	telefone VARCHAR (80),
 	email VARCHAR (80),
@@ -97,3 +97,4 @@ VALUES
 ('João Silva', 'joao.silva', 'joao.silva1234' , 'joao.silva@email.com'),
 ('Maria Oliveira', 'maria.oliveira', 'maria.oliveira1234' , 'maria.oliveira@email.com'),
 ('Carlos Souza', 'carlos.souza', 'carlos.souza1234' , 'carlos.souza@email.com');
+
