@@ -66,7 +66,7 @@ export class MedicoController {
      */
         static async remover(req: Request, res: Response): Promise<any> {
             try {
-                const idMedico = parseInt(req.params.idMedico as string);
+                const idMedico = parseInt(req.query.idMedico as string);
                 const result = await Medico.removerMedico(idMedico);
                 
                 if (result) {
