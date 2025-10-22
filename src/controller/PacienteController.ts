@@ -78,7 +78,8 @@ export class PacienteController {
 
     static async remover(req: Request, res: Response): Promise<any> {
         try {
-            const idPaciente = parseInt(req.query.idPaciente as string);
+            const idPaciente = parseInt(req.params.idPaciente as string);
+            
             const result = await Paciente.removerPaciente(idPaciente);
             
             if (result) {

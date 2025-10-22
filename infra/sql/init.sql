@@ -97,3 +97,4 @@ VALUES
 ('João Silva', 'joao.silva', 'joao.silva1234' , 'joao.silva@email.com'),
 ('Maria Oliveira', 'maria.oliveira', 'maria.oliveira1234' , 'maria.oliveira@email.com'),
 ('Carlos Souza', 'carlos.souza', 'carlos.souza1234' , 'carlos.souza@email.com');
+
