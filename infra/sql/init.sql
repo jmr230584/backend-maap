@@ -49,8 +49,8 @@ CREATE TABLE Consulta (
     Sala_atendimento VARCHAR(10) NOT NULL,
     consulta_status VARCHAR(20)NOT NULL,
     id_paciente INT NOT NULL,
-    id_medico INT NOT NULL,
-	status_consulta_registro BOOLEAN NOT NULL DEFAULT TRUE
+    FOREIGN KEY id_medico INT NOT NULL,
+	FOREIGN KEY status_consulta_registro BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 INSERT INTO consulta (nome, data, hora, diagnostico, receita, sala_atendimento, consulta_status, id_paciente, id_medico, status_consulta_registro)
