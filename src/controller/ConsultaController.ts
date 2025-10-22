@@ -14,6 +14,7 @@ interface ConsultaDTO {
     statusConsultaRegistro: boolean
 }
 
+
 /**
  * A classe `ConsultaController` estende a classe `Consulta` e é responsável por controlar as requisições relacionadas aos Emprestimos.
  * 
