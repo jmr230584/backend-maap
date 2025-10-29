@@ -57,7 +57,7 @@ router.put("/remover/consulta/:idConsulta", Auth.verifyToken, ConsultaController
 router.put("/atualizar/consulta/:idConsulta", Auth.verifyToken, ConsultaController.atualizar);
 
 router.post("/novo/usuario", upload.single('imagemPerfil'), UsuarioController.novo);
-router.get("/lista/usuarios", UsuarioController.todos);
+router.get("/listar/usuarios", UsuarioController.todos);
 
 
 router.post('/login', Auth.validacaoUsuario);
