@@ -41,23 +41,40 @@ INSERT INTO medico (id_medico, nome, especialidade, telefone, crm, email) VALUES
 
 CREATE TABLE Consulta (
     id_consulta SERIAL PRIMARY KEY,
-	nome VARCHAR(80) NOT NULL,
     data DATE NOT NULL,
     hora VARCHAR(10) NOT NULL,
     diagnostico VARCHAR(200),
-    Receita VARCHAR(200),
-    Sala_atendimento VARCHAR(10) NOT NULL,
-    consulta_status VARCHAR(20)NOT NULL,
+    receita VARCHAR(200),
+    sala_atendimento VARCHAR(10) NOT NULL,
+    consulta_status VARCHAR(20) NOT NULL,
     id_paciente INT NOT NULL,
-    FOREIGN KEY id_medico INT NOT NULL,
-	FOREIGN KEY status_consulta_registro BOOLEAN NOT NULL DEFAULT TRUE
+    id_medico INT NOT NULL,
+    status_consulta_registro BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY (id_paciente) REFERENCES Paciente (id_paciente),
+    FOREIGN KEY (id_medico) REFERENCES Medico (id_medico)
 );
 
-INSERT INTO consulta (nome, data, hora, diagnostico, receita, sala_atendimento, consulta_status, id_paciente, id_medico, status_consulta_registro)
+
+
+SELECT 
+    c.id_consulta,
+    c.data,
+    c.hora,
+    c.diagnostico,
+    c.receita,
+    c.sala_atendimento,
+    c.consulta_status,
+    p.nome AS nome_paciente,
+    m.nome AS nome_medico
+FROM Consulta c
+JOIN Paciente p ON c.id_paciente = p.id_paciente
+JOIN Medico m ON c.id_medico = m.id_medico;
+
+INSERT INTO Consulta (nome, data, hora, diagnostico, receita, sala_atendimento, consulta_status, id_paciente, id_medico, status_consulta_registro)
 VALUES
-    ('João Silva', '2025-02-15', '09:00', 'Hipertensão', 'Losartana 50mg', 101, 'Realizada', 1, 1, TRUE),
-    ('Maria Oliveira', '2025-02-16', '10:30', 'Infecção de garganta', 'Amoxicilina 500mg', 202, 'Realizada', 2, 2, TRUE),
-    ('Antonio Souza', '2025-02-17', '11:00', 'Dor lombar', 'Fisioterapia', 303, 'Agendada', 3, 3, TRUE);
+    ('João Silva', '2025-02-15', '09:00', 'Hipertensão', 'Losartana 50mg', '101', 'Realizada', 1, 1, TRUE),
+    ('Maria Oliveira', '2025-02-16', '10:30', 'Infecção de garganta', 'Amoxicilina 500mg', '202', 'Realizada', 2, 2, TRUE),
+    ('Antonio Souza', '2025-02-17', '11:00', 'Dor lombar', 'Fisioterapia', '303', 'Agendada', 3, 3, TRUE);
 
 
 CREATE TABLE IF NOT EXISTS Usuario (
