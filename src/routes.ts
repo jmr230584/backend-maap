@@ -36,6 +36,7 @@ router.put("/atualizar/medico/:idMedico", Auth.verifyToken, MedicoController.atu
 */ 
 // Rota para listar os pacientes
 router.get("/listar/pacientes", Auth.verifyToken, PacienteController.todos);
+router.get("/lista/paciente", Auth.verifyToken, PacienteController.paciente);
 // Rota para cadastrar um novo paciente
 router.post("/cadastro/paciente", Auth.verifyToken, PacienteController.novo);
 // Rota para deletar um novo paciente

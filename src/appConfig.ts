@@ -5,6 +5,7 @@ const SERVER_ROUTES = {
     ATUALIZAR_MEDICO: '/atualizar/medico/:idMedico',
  
     LISTAR_PACIENTES: '/listar/pacientes',
+    LISTAR_PACIENTE: '/lista/paciente',
     NOVO_PACIENTE: '/cadastro/paciente',
     REMOVER_PACIENTE: '/remover/paciente/:idPaciente',
     ATUALIZAR_PACIENTE: '/atualizar/paciente/:idPaciente',

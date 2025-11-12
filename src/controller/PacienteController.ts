@@ -35,6 +35,24 @@ export class PacienteController {
         }
     }
 
+        /**
+     * Retorna informações de um aluno
+     * @param req Objeto de requisição HTTP
+     * @param res Objeto de resposta HTTP.
+     * @returns Informações de aluno em formato JSON.
+     */
+    static async paciente(req: Request, res: Response) {
+        try {
+            const idPaciente = parseInt(req.query.idPaciente as string);
+
+            const paciente = await Paciente.listarPaciente(idPaciente);
+            res.status(200).json(paciente);
+        } catch (error) {
+            console.log(`Erro ao acessar método herdado: ${error}`);    // Exibe erros da consulta no console
+            res.status(500).json("Erro ao recuperar as informações do aluno.");  // Retorna mensagem de erro com status code 400
+        }
+    }
+
     /**
      * Cadastra um novo Paciente.
      * @param req Objeto de requisição HTTP.
