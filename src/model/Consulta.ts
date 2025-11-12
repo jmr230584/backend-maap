@@ -131,6 +131,59 @@ export class Consulta {
         }
     }
 
+        /**
+             * Retorna as informações de um aluno informado pelo ID
+             * 
+             * @param idConsulta Identificador único do aluno
+             * @returns Objeto com informações do aluno
+             */
+            static async listarConsulta(idConsulta: number): Promise<Consulta | null> {
+                try {
+                    // Bloco try: aqui tentamos executar o código que pode gerar um erro.
+                    // Se ocorrer algum erro dentro deste bloco, ele será capturado pelo catch.
+        
+                    // Define a query SQL para selecionar um aluno com base no ID fornecido
+                    const querySelectConsulta = `SELECT * FROM consulta WHERE id_consulta = ${idConsulta}`;
+        
+                    // Executa a consulta no banco de dados e aguarda o resultado
+                    const respostaBD = await database.query(querySelectConsulta);
+        
+                    // Cria um novo objeto da classe Aluno com os dados retornados do banco
+                    let consulta = new Consulta(
+                        respostaBD.rows[0].nomePaciente,             // Nome do aluno
+                        respostaBD.rows[0].data,  // Data de nascimento do aluno
+                        respostaBD.rows[0].hora,         // Endereço do aluno
+                        respostaBD.rows[0].diagnostico,             // Nome do aluno
+                        respostaBD.rows[0].receita,        // Sobrenome do aluno
+                        respostaBD.rows[0].salaAtendimento,  // Data de nascimento do aluno
+                        respostaBD.rows[0].consultaStatus,     
+                        respostaBD.rows[0].idPaciente,        // Sobrenome do aluno
+                        respostaBD.rows[0].idMedico          // Celular do aluno
+                    );
+        
+                    // Define o ID do aluno no objeto Aluno
+                    consulta.setIdConsulta(respostaBD.rows[0].id_consulta);
+        
+                    // Define o RA (Registro Acadêmico) do aluno
+                    consulta.setIdPaciente(respostaBD.rows[0].id_paciente);
+        
+                    // Define o status do aluno (ativo, inativo, etc.)
+                    consulta.setConsultaStatus(respostaBD.rows[0].consulta_status);
+        
+                    // Retorna o objeto aluno preenchido com os dados do banco
+                    return consulta;
+                } catch (error) {
+                    // Bloco catch: se algum erro ocorrer no bloco try, ele será capturado aqui.
+                    // Isso evita que o erro interrompa a execução do programa.
+        
+                    // Exibe uma mensagem de erro no console para facilitar o debug
+                    console.log(`Erro ao realizar a consulta: ${error}`);
+        
+                    // Retorna null para indicar que não foi possível buscar o aluno
+                    return null;
+                }
+            }
+
     /**
      * Cadastra nova consulta.
      */

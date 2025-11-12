@@ -31,6 +31,25 @@ export class ConsultaController extends Consulta {
         }
     }
 
+
+            /**
+         * Retorna informações de um aluno
+         * @param req Objeto de requisição HTTP
+         * @param res Objeto de resposta HTTP.
+         * @returns Informações de aluno em formato JSON.
+         */
+        static async consulta(req: Request, res: Response) {
+            try {
+                const idConsulta = parseInt(req.query.idConsulta as string);
+    
+                const consulta = await Consulta.listarConsulta(idConsulta);
+                res.status(200).json(consulta);
+            } catch (error) {
+                console.log(`Erro ao acessar método herdado: ${error}`);    // Exibe erros da consulta no console
+                res.status(500).json("Erro ao recuperar as informações do aluno.");  // Retorna mensagem de erro com status code 400
+            }
+        }
+
     /**
      * Cadastra uma nova consulta.
      */

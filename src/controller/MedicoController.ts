@@ -27,6 +27,24 @@ export class MedicoController {
         }
     }
 
+            /**
+         * Retorna informações de um aluno
+         * @param req Objeto de requisição HTTP
+         * @param res Objeto de resposta HTTP.
+         * @returns Informações de aluno em formato JSON.
+         */
+        static async medico(req: Request, res: Response) {
+            try {
+                const idMedico = parseInt(req.query.idMedico as string);
+    
+                const medico = await Medico.listarMedico(idMedico);
+                res.status(200).json(medico);
+            } catch (error) {
+                console.log(`Erro ao acessar método herdado: ${error}`);    // Exibe erros da consulta no console
+                res.status(500).json("Erro ao recuperar as informações do aluno.");  // Retorna mensagem de erro com status code 400
+            }
+        }
+
     /**
      * Controlador responsável por cadastrar um novo médico.
      * @param req Objeto de requisição HTTP, com os dados do médico no formato `MedicoDTO`.

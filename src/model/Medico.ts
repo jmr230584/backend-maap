@@ -231,6 +231,55 @@ public setStatusMedico(_statusMedico: boolean) {
     }
 
     /**
+         * Retorna as informações de um aluno informado pelo ID
+         * 
+         * @param idMedico Identificador único do aluno
+         * @returns Objeto com informações do aluno
+         */
+        static async listarMedico(idMedico: number): Promise<Medico | null> {
+            try {
+                // Bloco try: aqui tentamos executar o código que pode gerar um erro.
+                // Se ocorrer algum erro dentro deste bloco, ele será capturado pelo catch.
+    
+                // Define a query SQL para selecionar um aluno com base no ID fornecido
+                const querySelectMedico = `SELECT * FROM medico WHERE id_medico = ${idMedico}`;
+    
+                // Executa a consulta no banco de dados e aguarda o resultado
+                const respostaBD = await database.query(querySelectMedico);
+    
+                // Cria um novo objeto da classe Aluno com os dados retornados do banco
+                let medico = new Medico(
+                    respostaBD.rows[0].nome,             // Nome do aluno
+                    respostaBD.rows[0].especialidade,        // Sobrenome do aluno
+                    respostaBD.rows[0].crm,  // Data de nascimento do aluno
+                    respostaBD.rows[0].telefone,         // Endereço do aluno
+                    respostaBD.rows[0].email          // Celular do aluno
+                );
+    
+                // Define o ID do aluno no objeto Aluno
+                medico.setIdMedico(respostaBD.rows[0].id_medico);
+    
+                // Define o RA (Registro Acadêmico) do aluno
+                medico.setCrm(respostaBD.rows[0].crm);
+    
+                // Define o status do aluno (ativo, inativo, etc.)
+                medico.setStatusMedico(respostaBD.rows[0].status_medico);
+    
+                // Retorna o objeto aluno preenchido com os dados do banco
+                return medico;
+            } catch (error) {
+                // Bloco catch: se algum erro ocorrer no bloco try, ele será capturado aqui.
+                // Isso evita que o erro interrompa a execução do programa.
+    
+                // Exibe uma mensagem de erro no console para facilitar o debug
+                console.log(`Erro ao realizar a consulta: ${error}`);
+    
+                // Retorna null para indicar que não foi possível buscar o aluno
+                return null;
+            }
+        }
+
+    /**
      * Cadastra um novo médico no banco de dados.
      * 
      * Esta função recebe um objeto `Medico`, extrai as informações relevantes e realiza uma operação de inserção (INSERT) na tabela `medico`.
