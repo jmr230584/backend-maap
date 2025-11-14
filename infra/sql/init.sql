@@ -1,9 +1,9 @@
 CREATE TABLE Paciente (
     id_paciente SERIAL PRIMARY KEY,
 	nome VARCHAR (80) NOT NULL,
-    cpf VARCHAR (20) UNIQUE NOT NULL,
-    telefone VARCHAR (20) NOT NULL,
-	email VARCHAR (80),
+    cpf VARCHAR (11) UNIQUE NOT NULL,
+    telefone VARCHAR (20) UNIQUE NOT NULL,
+	email VARCHAR (80) UNIQUE,
 	data_nascimento DATE,
     endereco VARCHAR (200)
 );
@@ -23,9 +23,9 @@ CREATE TABLE Medico (
     id_medico SERIAL PRIMARY KEY,
 	nome VARCHAR (80) NOT NULL,
     especialidade VARCHAR (20),
-    crm VARCHAR (20) NOT NULL,
-	telefone VARCHAR (80),
-	email VARCHAR (80),
+    crm VARCHAR (20) UNIQUE NOT NULL,
+	telefone VARCHAR (80) UNIQUE,
+	email VARCHAR (80) UNIQUE,
     status_medico BOOLEAN DEFAULT TRUE
 );
 ALTER TABLE Medico
@@ -114,4 +114,24 @@ VALUES
 ('João Silva', 'joao.silva', 'joao.silva1234' , 'joao.silva@email.com'),
 ('Maria Oliveira', 'maria.oliveira', 'maria.oliveira1234' , 'maria.oliveira@email.com'),
 ('Carlos Souza', 'carlos.souza', 'carlos.souza1234' , 'carlos.souza@email.com');
+
+ALTER TABLE paciente 
+    ALTER COLUMN cpf SET NOT NULL,
+    ALTER COLUMN telefone SET NOT NULL,
+    ALTER COLUMN email SET NOT NULL;
+
+ALTER TABLE paciente 
+    ADD CONSTRAINT paciente_cpf_unique UNIQUE (cpf),
+    ADD CONSTRAINT paciente_telefone_unique UNIQUE (telefone),
+    ADD CONSTRAINT paciente_email_unique UNIQUE (email);
+
+ALTER TABLE medico 
+    ALTER COLUMN crm SET NOT NULL,
+    ALTER COLUMN telefone SET NOT NULL,
+    ALTER COLUMN email SET NOT NULL;
+
+ALTER TABLE medico
+    ADD CONSTRAINT medico_crm_unique UNIQUE (crm),
+    ADD CONSTRAINT medico_telefone_unique UNIQUE (telefone),
+    ADD CONSTRAINT medico_email_unique UNIQUE (email);
 
