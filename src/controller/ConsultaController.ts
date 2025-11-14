@@ -32,23 +32,23 @@ export class ConsultaController extends Consulta {
     }
 
 
-            /**
-         * Retorna informações de um aluno
-         * @param req Objeto de requisição HTTP
-         * @param res Objeto de resposta HTTP.
-         * @returns Informações de aluno em formato JSON.
-         */
-        static async consulta(req: Request, res: Response) {
-            try {
-                const idConsulta = parseInt(req.query.idConsulta as string);
-    
-                const consulta = await Consulta.listarConsulta(idConsulta);
-                res.status(200).json(consulta);
-            } catch (error) {
-                console.log(`Erro ao acessar método herdado: ${error}`);    // Exibe erros da consulta no console
-                res.status(500).json("Erro ao recuperar as informações do aluno.");  // Retorna mensagem de erro com status code 400
-            }
+    /**
+ * Retorna informações de um aluno
+ * @param req Objeto de requisição HTTP
+ * @param res Objeto de resposta HTTP.
+ * @returns Informações de aluno em formato JSON.
+ */
+    static async consulta(req: Request, res: Response) {
+        try {
+            const idConsulta = parseInt(req.query.idConsulta as string);
+
+            const consulta = await Consulta.listarConsulta(idConsulta);
+            res.status(200).json(consulta);
+        } catch (error) {
+            console.log(`Erro ao acessar método herdado: ${error}`);    // Exibe erros da consulta no console
+            res.status(500).json("Erro ao recuperar as informações do aluno.");  // Retorna mensagem de erro com status code 400
         }
+    }
 
     /**
      * Cadastra uma nova consulta.
@@ -108,10 +108,17 @@ export class ConsultaController extends Consulta {
      */
     static async atualizar(req: Request, res: Response): Promise<any> {
         try {
+            const idConsulta = Number(req.params.idConsulta);
+
+            if (isNaN(idConsulta)) {
+                console.error("ID da consulta inválido:", req.params.idConsulta);
+                return res.status(400).json({ mensagem: "ID da consulta inválido." });
+            }
+
             const dadosRecebidos: ConsultaDTO = req.body;
 
             const consulta = new Consulta(
-                "", // nomePaciente — não vai para o banco
+                "",
                 dadosRecebidos.data,
                 dadosRecebidos.hora,
                 dadosRecebidos.diagnostico,
@@ -122,7 +129,7 @@ export class ConsultaController extends Consulta {
                 dadosRecebidos.idMedico
             );
 
-            consulta.setIdConsulta(parseInt(req.params.idConsulta));
+            consulta.setIdConsulta(idConsulta);
 
             const sucesso = await Consulta.atualizarCadastroConsulta(consulta);
 
@@ -133,10 +140,11 @@ export class ConsultaController extends Consulta {
             }
 
         } catch (error) {
-            console.error(`Erro ao atualizar consulta: ${error}`);
+            console.error(`Erro ao atualizar consulta:`, error);
             return res.status(500).json({ mensagem: "Erro interno ao atualizar a consulta." });
         }
     }
+
 }
 
 export default ConsultaController;

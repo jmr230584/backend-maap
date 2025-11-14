@@ -18,24 +18,29 @@ export class Consulta {
 
     constructor(
         nomePaciente: string,
-        data: Date,
+        data: Date | string,
         hora: string,
         diagnostico: string,
         receita: string,
         salaAtendimento: string,
         consultaStatus: string,
-        idPaciente: number,
-        idMedico: number
+        idPaciente: number | string,
+        idMedico: number | string
     ) {
         this.nomePaciente = nomePaciente;
-        this.data = data;
+
+        // 🔥 Correção definitiva
+        this.data = new Date(data);
+
         this.hora = hora;
         this.diagnostico = diagnostico;
         this.receita = receita;
         this.salaAtendimento = salaAtendimento;
         this.consultaStatus = consultaStatus;
-        this.idPaciente = idPaciente;
-        this.idMedico = idMedico;
+
+        // 🔥 Converte sempre para número (evita NaN)
+        this.idPaciente = Number(idPaciente);
+        this.idMedico = Number(idMedico);
     }
 
     public getIdConsulta(): number { return this.idConsulta; }
@@ -48,7 +53,7 @@ export class Consulta {
     public setNomeMedico(nome: string): void { this.nomeMedico = nome; }
 
     public getData(): Date { return this.data; }
-    public setData(data: Date): void { this.data = data; }
+    public setData(data: Date | string): void { this.data = new Date(data); }
 
     public getHora(): string { return this.hora; }
     public setHora(hora: string): void { this.hora = hora; }
@@ -66,21 +71,18 @@ export class Consulta {
     public setConsultaStatus(status: string): void { this.consultaStatus = status; }
 
     public getIdPaciente(): number { return this.idPaciente; }
-    public setIdPaciente(id: number): void { this.idPaciente = id; }
+    public setIdPaciente(id: number | string): void { this.idPaciente = Number(id); }
 
     public getIdMedico(): number { return this.idMedico; }
-    public setIdMedico(id: number): void { this.idMedico = id; }
+    public setIdMedico(id: number | string): void { this.idMedico = Number(id); }
 
     public getStatusConsultaRegistro(): boolean { return this.statusConsultaRegistro; }
     public setStatusConsultaRegistro(status: boolean): void { this.statusConsultaRegistro = status; }
 
-    /* ===============================
+    /* ======================================
        MÉTODOS DE BANCO DE DADOS
-    =============================== */
+    ======================================= */
 
-    /**
-     * Lista todas as consultas com nomes de paciente e médico.
-     */
     static async listagemConsulta(): Promise<Array<Consulta> | null> {
         const lista: Array<Consulta> = [];
         try {
@@ -108,88 +110,81 @@ export class Consulta {
             resposta.rows.forEach((linha: any) => {
                 const consulta = new Consulta(
                     linha.nome_paciente,
-                    linha.data,
+                    new Date(linha.data),            // ✔ data corrigida
                     linha.hora,
                     linha.diagnostico,
                     linha.receita,
                     linha.sala_atendimento,
                     linha.consulta_status,
-                    linha.id_paciente,
-                    linha.id_medico
+                    Number(linha.id_paciente),        // ✔ conversão correta
+                    Number(linha.id_medico)           // ✔ conversão correta
                 );
 
                 consulta.setIdConsulta(linha.id_consulta);
                 consulta.setNomeMedico(linha.nome_medico);
+
                 lista.push(consulta);
             });
 
             return lista;
 
         } catch (error) {
-            console.error('Erro ao buscar consultas:', error);
+            console.error("Erro ao buscar consultas:", error);
             return null;
         }
     }
 
-        /**
-             * Retorna as informações de um aluno informado pelo ID
-             * 
-             * @param idConsulta Identificador único do aluno
-             * @returns Objeto com informações do aluno
-             */
-            static async listarConsulta(idConsulta: number): Promise<Consulta | null> {
-    try {
-        const query = `
-            SELECT
-                c.id_consulta,
-                c.data,
-                c.hora,
-                c.diagnostico,
-                c.receita,
-                c.sala_atendimento,
-                c.consulta_status,
-                c.id_paciente,
-                c.id_medico,
-                p.nome AS nome_paciente,
-                m.nome AS nome_medico
-            FROM consulta c
-            JOIN paciente p ON c.id_paciente = p.id_paciente
-            JOIN medico m ON c.id_medico = m.id_medico
-            WHERE c.id_consulta = $1
-              AND c.status_consulta_registro = true;
-        `;
+    static async listarConsulta(idConsulta: number): Promise<Consulta | null> {
+        try {
+            const query = `
+                SELECT
+                    c.id_consulta,
+                    c.data,
+                    c.hora,
+                    c.diagnostico,
+                    c.receita,
+                    c.sala_atendimento,
+                    c.consulta_status,
+                    c.id_paciente,
+                    c.id_medico,
+                    p.nome AS nome_paciente,
+                    m.nome AS nome_medico
+                FROM consulta c
+                JOIN paciente p ON c.id_paciente = p.id_paciente
+                JOIN medico m ON c.id_medico = m.id_medico
+                WHERE c.id_consulta = $1
+                  AND c.status_consulta_registro = true;
+            `;
 
-        const respostaBD = await database.query(query, [idConsulta]);
+            const respostaBD = await database.query(query, [idConsulta]);
 
-        if (respostaBD.rows.length === 0) return null;
+            if (respostaBD.rows.length === 0) return null;
 
-        const row = respostaBD.rows[0];
+            const row = respostaBD.rows[0];
 
-        let consulta = new Consulta(
-            row.nome_paciente,
-            row.data,
-            row.hora,
-            row.diagnostico,
-            row.receita,
-            row.sala_atendimento,
-            row.consulta_status,
-            row.id_paciente,
-            row.id_medico
-        );
+            let consulta = new Consulta(
+                row.nome_paciente,
+                new Date(row.data),                     // ✔ corrigido
+                row.hora,
+                row.diagnostico,
+                row.receita,
+                row.sala_atendimento,
+                row.consulta_status,
+                Number(row.id_paciente),                // ✔ corrigido
+                Number(row.id_medico)                   // ✔ corrigido
+            );
 
-        consulta.setIdConsulta(row.id_consulta);
-        consulta.setNomeMedico(row.nome_medico);
+            consulta.setIdConsulta(row.id_consulta);
+            consulta.setNomeMedico(row.nome_medico);
 
-        return consulta;
+            return consulta;
 
-    } catch (error) {
-        console.log(`Erro ao realizar a consulta: ${error}`);
-        return null;
+        } catch (error) {
+            console.log(`Erro ao realizar a consulta: ${error}`);
+            return null;
+        }
     }
-}
-    /**
-     * Cadastra nova consulta.
-     */
+
     static async cadastroConsulta(consulta: Consulta): Promise<boolean> {
         try {
             const query = `
@@ -211,21 +206,14 @@ export class Consulta {
             ];
 
             const result = await database.query(query, values);
-            if ((result?.rowCount ?? 0) > 0) {
-                console.log(`✅ Consulta cadastrada (ID: ${result.rows[0].id_consulta})`);
-                return true;
-            }
+            return (result?.rowCount ?? 0) > 0;
 
-            return false;
         } catch (error) {
-            console.error('❌ Erro ao cadastrar consulta:', error);
+            console.error("❌ Erro ao cadastrar consulta:", error);
             return false;
         }
     }
 
-    /**
-     * Atualiza uma consulta existente.
-     */
     static async atualizarCadastroConsulta(consulta: Consulta): Promise<boolean> {
         try {
             const query = `
@@ -258,14 +246,11 @@ export class Consulta {
             return (result?.rowCount ?? 0) > 0;
 
         } catch (error) {
-            console.error('❌ Erro ao atualizar consulta:', error);
+            console.error("❌ Erro ao atualizar consulta:", error);
             return false;
         }
     }
 
-    /**
-     * Remove (desativa) uma consulta.
-     */
     static async removerConsulta(idConsulta: number): Promise<boolean> {
         try {
             const query = `
@@ -275,8 +260,9 @@ export class Consulta {
             `;
             const result = await database.query(query, [idConsulta]);
             return (result?.rowCount ?? 0) > 0;
+
         } catch (error) {
-            console.error('❌ Erro ao remover consulta:', error);
+            console.error("❌ Erro ao remover consulta:", error);
             return false;
         }
     }

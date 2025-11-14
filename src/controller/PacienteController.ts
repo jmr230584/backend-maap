@@ -35,12 +35,12 @@ export class PacienteController {
         }
     }
 
-        /**
-     * Retorna informações de um aluno
-     * @param req Objeto de requisição HTTP
-     * @param res Objeto de resposta HTTP.
-     * @returns Informações de aluno em formato JSON.
-     */
+    /**
+ * Retorna informações de um aluno
+ * @param req Objeto de requisição HTTP
+ * @param res Objeto de resposta HTTP.
+ * @returns Informações de aluno em formato JSON.
+ */
     static async paciente(req: Request, res: Response) {
         try {
             const idPaciente = parseInt(req.query.idPaciente as string);
@@ -97,9 +97,9 @@ export class PacienteController {
     static async remover(req: Request, res: Response): Promise<any> {
         try {
             const idPaciente = parseInt(req.query.idPaciente as string);
-            
+
             const result = await Paciente.removerPaciente(idPaciente);
-            
+
             if (result) {
                 return res.status(200).json('Paciente removido com sucesso');
             } else {
@@ -115,35 +115,29 @@ export class PacienteController {
 
     static async atualizar(req: Request, res: Response): Promise<any> {
         try {
-            // Desestruturando objeto recebido pelo front-end
             const PacienteRecebido: PacienteDTO = req.body;
-            
-            // Instanciando objeto paciente com os dados recebidos
+
             const paciente = new Paciente(
                 PacienteRecebido.nome,
                 PacienteRecebido.cpf,
                 PacienteRecebido.telefone,
                 PacienteRecebido.email,
                 PacienteRecebido.dataNascimento,
-                PacienteRecebido.endereco            
+                PacienteRecebido.endereco
             );
 
-            // Define o ID do paciente, que deve ser passado na query string
-            paciente.setIdPaciente(parseInt(req.params.idPaciente));
+            // CORREÇÃO
+            paciente.setIdPaciente(Number(PacienteRecebido.idPaciente));
 
-            console.log(PacienteRecebido);
-
-            // Chama o método para atualizar o cadastro do paciente no banco de dados
+            // Chama o método de atualização
             if (await Paciente.atualizarCadastroPaciente(paciente)) {
                 return res.status(200).json({ mensagem: "Paciente atualizado com sucesso!" });
             } else {
                 return res.status(400).json('Não foi possível atualizar o paciente no banco de dados');
             }
         } catch (error) {
-            // Caso ocorra algum erro, este é registrado nos logs do servidor
             console.error(`Erro no modelo: ${error}`);
-            // Retorna uma resposta com uma mensagem de erro
-            return res.json({ mensagem: "Erro ao atualizar medico." });
+            return res.json({ mensagem: "Erro ao atualizar paciente." });
         }
     }
 }
