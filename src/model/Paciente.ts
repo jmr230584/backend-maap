@@ -271,6 +271,8 @@ public setStatusPaciente(statusPaciente: boolean) {
             // Define o status do aluno (ativo, inativo, etc.)
             paciente.setStatusPaciente(respostaBD.rows[0].status_paciente);
 
+            paciente.setDataNascimento(respostaBD.rows[0].data_nascimento);
+
             // Retorna o objeto aluno preenchido com os dados do banco
             return paciente;
         } catch (error) {
