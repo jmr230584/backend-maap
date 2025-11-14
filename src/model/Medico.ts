@@ -214,8 +214,9 @@ public setStatusMedico(_statusMedico: boolean) {
                     linha.email
                 );
                 // Atribui o ID ao objeto
-                novoMedico.setStatusMedico(linha.status_medico)
                 novoMedico.setIdMedico(linha.id_medico);
+                novoMedico.setStatusMedico(linha.status_medico)
+
 
                 // Adiciona o objeto na lista
                 listaDeMedicos.push(novoMedico);
@@ -246,6 +247,7 @@ public setStatusMedico(_statusMedico: boolean) {
     
                 // Executa a consulta no banco de dados e aguarda o resultado
                 const respostaBD = await database.query(querySelectMedico);
+                console.log(querySelectMedico);
     
                 // Cria um novo objeto da classe Aluno com os dados retornados do banco
                 let medico = new Medico(

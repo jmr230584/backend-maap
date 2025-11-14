@@ -138,52 +138,55 @@ export class Consulta {
              * @returns Objeto com informações do aluno
              */
             static async listarConsulta(idConsulta: number): Promise<Consulta | null> {
-                try {
-                    // Bloco try: aqui tentamos executar o código que pode gerar um erro.
-                    // Se ocorrer algum erro dentro deste bloco, ele será capturado pelo catch.
-        
-                    // Define a query SQL para selecionar um aluno com base no ID fornecido
-                    const querySelectConsulta = `SELECT * FROM consulta WHERE id_consulta = ${idConsulta}`;
-        
-                    // Executa a consulta no banco de dados e aguarda o resultado
-                    const respostaBD = await database.query(querySelectConsulta);
-        
-                    // Cria um novo objeto da classe Aluno com os dados retornados do banco
-                    let consulta = new Consulta(
-                        respostaBD.rows[0].nomePaciente,             // Nome do aluno
-                        respostaBD.rows[0].data,  // Data de nascimento do aluno
-                        respostaBD.rows[0].hora,         // Endereço do aluno
-                        respostaBD.rows[0].diagnostico,             // Nome do aluno
-                        respostaBD.rows[0].receita,        // Sobrenome do aluno
-                        respostaBD.rows[0].salaAtendimento,  // Data de nascimento do aluno
-                        respostaBD.rows[0].consultaStatus,     
-                        respostaBD.rows[0].idPaciente,        // Sobrenome do aluno
-                        respostaBD.rows[0].idMedico          // Celular do aluno
-                    );
-        
-                    // Define o ID do aluno no objeto Aluno
-                    consulta.setIdConsulta(respostaBD.rows[0].id_consulta);
-        
-                    // Define o RA (Registro Acadêmico) do aluno
-                    consulta.setIdPaciente(respostaBD.rows[0].id_paciente);
-        
-                    // Define o status do aluno (ativo, inativo, etc.)
-                    consulta.setConsultaStatus(respostaBD.rows[0].consulta_status);
-        
-                    // Retorna o objeto aluno preenchido com os dados do banco
-                    return consulta;
-                } catch (error) {
-                    // Bloco catch: se algum erro ocorrer no bloco try, ele será capturado aqui.
-                    // Isso evita que o erro interrompa a execução do programa.
-        
-                    // Exibe uma mensagem de erro no console para facilitar o debug
-                    console.log(`Erro ao realizar a consulta: ${error}`);
-        
-                    // Retorna null para indicar que não foi possível buscar o aluno
-                    return null;
-                }
-            }
+    try {
+        const query = `
+            SELECT
+                c.id_consulta,
+                c.data,
+                c.hora,
+                c.diagnostico,
+                c.receita,
+                c.sala_atendimento,
+                c.consulta_status,
+                c.id_paciente,
+                c.id_medico,
+                p.nome AS nome_paciente,
+                m.nome AS nome_medico
+            FROM consulta c
+            JOIN paciente p ON c.id_paciente = p.id_paciente
+            JOIN medico m ON c.id_medico = m.id_medico
+            WHERE c.id_consulta = $1
+              AND c.status_consulta_registro = true;
+        `;
 
+        const respostaBD = await database.query(query, [idConsulta]);
+
+        if (respostaBD.rows.length === 0) return null;
+
+        const row = respostaBD.rows[0];
+
+        let consulta = new Consulta(
+            row.nome_paciente,
+            row.data,
+            row.hora,
+            row.diagnostico,
+            row.receita,
+            row.sala_atendimento,
+            row.consulta_status,
+            row.id_paciente,
+            row.id_medico
+        );
+
+        consulta.setIdConsulta(row.id_consulta);
+        consulta.setNomeMedico(row.nome_medico);
+
+        return consulta;
+
+    } catch (error) {
+        console.log(`Erro ao realizar a consulta: ${error}`);
+        return null;
+    }
+}
     /**
      * Cadastra nova consulta.
      */
