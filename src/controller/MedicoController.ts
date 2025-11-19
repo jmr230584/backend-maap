@@ -27,23 +27,23 @@ export class MedicoController {
         }
     }
 
-            /**
-         * Retorna informações de um aluno
-         * @param req Objeto de requisição HTTP
-         * @param res Objeto de resposta HTTP.
-         * @returns Informações de aluno em formato JSON.
-         */
-        static async medico(req: Request, res: Response) {
-            try {
-                const idMedico = parseInt(req.query.idMedico as string);
-    
-                const medico = await Medico.listarMedico(idMedico);
-                res.status(200).json(medico);
-            } catch (error) {
-                console.log(`Erro ao acessar método herdado: ${error}`);    // Exibe erros da consulta no console
-                res.status(500).json("Erro ao recuperar as informações do aluno.");  // Retorna mensagem de erro com status code 400
-            }
+    /**
+ * Retorna informações de um aluno
+ * @param req Objeto de requisição HTTP
+ * @param res Objeto de resposta HTTP.
+ * @returns Informações de aluno em formato JSON.
+ */
+    static async medico(req: Request, res: Response) {
+        try {
+            const idMedico = parseInt(req.query.idMedico as string);
+
+            const medico = await Medico.listarMedico(idMedico);
+            res.status(200).json(medico);
+        } catch (error) {
+            console.log(`Erro ao acessar método herdado: ${error}`);    // Exibe erros da consulta no console
+            res.status(500).json("Erro ao recuperar as informações do aluno.");  // Retorna mensagem de erro com status code 400
         }
+    }
 
     /**
      * Controlador responsável por cadastrar um novo médico.
@@ -76,68 +76,61 @@ export class MedicoController {
         }
     }
 
-        /**
-     * Remove um medico.
-     * @param req Objeto de requisição HTTP com o ID do medico a ser removido.
-     * @param res Objeto de resposta HTTP.
-     * @returns Mensagem de sucesso ou erro em formato JSON.
+    /**
+ * Remove um medico.
+ * @param req Objeto de requisição HTTP com o ID do medico a ser removido.
+ * @param res Objeto de resposta HTTP.
+ * @returns Mensagem de sucesso ou erro em formato JSON.
+ */
+    static async remover(req: Request, res: Response): Promise<any> {
+        try {
+            const idMedico = parseInt(req.query.idMedico as string);
+            const result = await Medico.removerMedico(idMedico);
+
+            if (result) {
+                return res.status(200).json('Medico removido com sucesso');
+            } else {
+                return res.status(401).json('Erro ao deletar Medico');
+            }
+        } catch (error) {
+            console.log("Erro ao remover o Medico");
+            console.log(error);
+            return res.status(500).send("error");
+        }
+    }
+
+    /**
+     * Método para atualizar o cadastro de um Medico.
+     * 
+     * @param req Objeto de requisição do Express, contendo os dados atualizados do Medico
+     * @param res Objeto de resposta do Express
+     * @returns Retorna uma resposta HTTP indicando sucesso ou falha na atualização
      */
-        static async remover(req: Request, res: Response): Promise<any> {
-            try {
-                const idMedico = parseInt(req.query.idMedico as string);
-                const result = await Medico.removerMedico(idMedico);
-                
-                if (result) {
-                    return res.status(200).json('Medico removido com sucesso');
-                } else {
-                    return res.status(401).json('Erro ao deletar Medico');
-                }
-            } catch (error) {
-                console.log("Erro ao remover o Medico");
-                console.log(error);
-                return res.status(500).send("error");
+    static async atualizar(req: Request, res: Response): Promise<any> {
+        try {
+            const dadosRecebidos: any = req.body;
+
+            const medico = new Medico(
+                dadosRecebidos.nome,
+                dadosRecebidos.especialidade,
+                dadosRecebidos.crm,
+                dadosRecebidos.telefone,
+                dadosRecebidos.email
+            );
+
+            // AGORA SIM: ID vem do body
+            medico.setIdMedico(dadosRecebidos.idMedico);
+
+            if (await Medico.atualizarCadastroMedico(medico)) {
+                return res.status(200).json({ mensagem: "Medico atualizado com sucesso!" });
+            } else {
+                return res.status(400).json('Não foi possível atualizar o Medico no banco de dados');
             }
+        } catch (error) {
+            console.error(`Erro no modelo: ${error}`);
+            return res.json({ mensagem: "Erro ao atualizar Medico." });
         }
-    
-        /**
-         * Método para atualizar o cadastro de um Medico.
-         * 
-         * @param req Objeto de requisição do Express, contendo os dados atualizados do Medico
-         * @param res Objeto de resposta do Express
-         * @returns Retorna uma resposta HTTP indicando sucesso ou falha na atualização
-         */
-        static async atualizar(req: Request, res: Response): Promise<any> {
-            try {
-                // Desestruturando objeto recebido pelo front-end
-                const dadosRecebidos: MedicoDTO = req.body;
-                
-                // Instanciando objeto Medico
-                const medico = new Medico(
-                    dadosRecebidos.nome,
-                    dadosRecebidos.especialidade,
-                    dadosRecebidos.crm,
-                    dadosRecebidos.telefone,
-                    dadosRecebidos.email           
-                );
-    
-                // Define o ID do Medico, que deve ser passado na query string
-                medico.setIdMedico(parseInt(req.params.idMedico));
-    
-                console.log(dadosRecebidos);
-    
-                // Chama o método para atualizar o cadastro do Medico no banco de dados
-                if (await Medico.atualizarCadastroMedico(medico)) {
-                    return res.status(200).json({ mensagem: "Medico atualizado com sucesso!" });
-                } else {
-                    return res.status(400).json('Não foi possível atualizar o Medico no banco de dados');
-                }
-            } catch (error) {
-                // Caso ocorra algum erro, este é registrado nos logs do servidor
-                console.error(`Erro no modelo: ${error}`);
-                // Retorna uma resposta com uma mensagem de erro
-                return res.json({ mensagem: "Erro ao atualizar Medico." });
-            }
-        }
+    }
 }
 
 

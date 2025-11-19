@@ -386,7 +386,7 @@ public setStatusMedico(_statusMedico: boolean) {
                                             crm = '${medico.getCrm()}', 
                                             telefone = '${medico.getTelefone()}', 
                                             email = '${medico.getEmail().toLowerCase()}'                                            
-                                        WHERE id_medico = ${medico.idMedico}`;
+                                      WHERE id_medico = ${medico.getIdMedico()};`;
 
             // Executa a query de atualização e verifica se a operação foi bem-sucedida.
             console.log(queryAtualizarMedico)

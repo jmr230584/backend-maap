@@ -32,6 +32,7 @@ router.put("/remover/medico/:idMedico", Auth.verifyToken, MedicoController.remov
 router.put("/atualizar/medico/:idMedico", Auth.verifyToken, MedicoController.atualizar);
 
 
+
 /* 
 * ROTAS PARA PACIENTES
 */ 
