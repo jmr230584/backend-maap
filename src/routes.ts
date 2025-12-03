@@ -53,7 +53,7 @@ router.put("/atualizar/paciente/:idPaciente", Auth.verifyToken, PacienteControll
 */ 
 // Rota para listar as consultas
 router.get("/listar/consultas", Auth.verifyToken, ConsultaController.todos);
-router.get("/lista/consulta", Auth.verifyToken, ConsultaController.consulta);
+router.get("/listar/consulta", Auth.verifyToken, ConsultaController.consulta);
 // Rota para cadastrar uma nova consulta
 router.post("/cadastro/consulta", Auth.verifyToken, ConsultaController.novo);
 // Rota para deltar uma nova consulta

@@ -59,14 +59,12 @@ export class ConsultaController extends Consulta {
 
             // O nome do paciente não é armazenado na tabela consulta, mas podemos buscá-lo depois via JOIN.
             const novaConsulta = new Consulta(
-                "", // nomePaciente é apenas informativo para exibição, não vai para o banco
                 consultaRecebida.data,
                 consultaRecebida.hora,
-                consultaRecebida.diagnostico,
-                consultaRecebida.receita,
                 consultaRecebida.salaAtendimento,
                 consultaRecebida.consultaStatus,
-                consultaRecebida.idPaciente
+                consultaRecebida.idPaciente,
+                consultaRecebida.idMedico
             );
 
             const resposta = await Consulta.cadastroConsulta(novaConsulta);
@@ -115,21 +113,18 @@ export class ConsultaController extends Consulta {
             }
 
             const dadosRecebidos: ConsultaDTO = req.body;
-
-            const consulta = new Consulta(
-                "",
+            const novaConsulta = new Consulta(
                 dadosRecebidos.data,
                 dadosRecebidos.hora,
-                dadosRecebidos.diagnostico,
-                dadosRecebidos.receita,
                 dadosRecebidos.salaAtendimento,
                 dadosRecebidos.consultaStatus,
-                dadosRecebidos.idPaciente
+                dadosRecebidos.idPaciente,
+                dadosRecebidos.idMedico
             );
 
-            consulta.setIdConsulta(idConsulta);
+            novaConsulta.setIdConsulta(idConsulta);
 
-            const sucesso = await Consulta.atualizarCadastroConsulta(consulta);
+            const sucesso = await Consulta.atualizarCadastroConsulta(novaConsulta);
 
             if (sucesso) {
                 return res.status(200).json({ mensagem: "Consulta atualizada com sucesso!" });
