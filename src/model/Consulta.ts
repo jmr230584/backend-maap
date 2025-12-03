@@ -8,8 +8,7 @@ export class Consulta {
     private nomeMedico?: string;
     private data: Date;
     private hora: string;
-    private diagnostico: string;
-    private receita: string;
+    private sintomas: string;
     private salaAtendimento: string;
     private consultaStatus: string;
     private idPaciente: number;
@@ -20,8 +19,7 @@ export class Consulta {
         nomePaciente: string,
         data: Date | string,
         hora: string,
-        diagnostico: string,
-        receita: string,
+        sintomas: string,
         salaAtendimento: string,
         consultaStatus: string,
         idPaciente: number | string,
@@ -33,8 +31,7 @@ export class Consulta {
         this.data = new Date(data);
 
         this.hora = hora;
-        this.diagnostico = diagnostico;
-        this.receita = receita;
+        this.sintomas = sintomas;
         this.salaAtendimento = salaAtendimento;
         this.consultaStatus = consultaStatus;
 
@@ -58,11 +55,8 @@ export class Consulta {
     public getHora(): string { return this.hora; }
     public setHora(hora: string): void { this.hora = hora; }
 
-    public getDiagnostico(): string { return this.diagnostico; }
-    public setDiagnostico(d: string): void { this.diagnostico = d; }
-
-    public getReceita(): string { return this.receita; }
-    public setReceita(r: string): void { this.receita = r; }
+    public getSintomas(): string { return this.sintomas; }
+    public setSintomas(d: string): void { this.sintomas = d; }
 
     public getSalaAtendimento(): string { return this.salaAtendimento; }
     public setSalaAtendimento(s: string): void { this.salaAtendimento = s; }
@@ -91,8 +85,7 @@ export class Consulta {
                     c.id_consulta,
                     c.data,
                     c.hora,
-                    c.diagnostico,
-                    c.receita,
+                    c.sintomas,
                     c.sala_atendimento,
                     c.consulta_status,
                     p.nome AS nome_paciente,
@@ -110,14 +103,13 @@ export class Consulta {
             resposta.rows.forEach((linha: any) => {
                 const consulta = new Consulta(
                     linha.nome_paciente,
-                    new Date(linha.data),            // ✔ data corrigida
+                    new Date(linha.data),
                     linha.hora,
-                    linha.diagnostico,
-                    linha.receita,
+                    linha.sintomas,
                     linha.sala_atendimento,
                     linha.consulta_status,
-                    Number(linha.id_paciente),        // ✔ conversão correta
-                    Number(linha.id_medico)           // ✔ conversão correta
+                    Number(linha.id_paciente), 
+                    Number(linha.id_medico) 
                 );
 
                 consulta.setIdConsulta(linha.id_consulta);
@@ -141,8 +133,7 @@ export class Consulta {
                     c.id_consulta,
                     c.data,
                     c.hora,
-                    c.diagnostico,
-                    c.receita,
+                    c.sintomas,
                     c.sala_atendimento,
                     c.consulta_status,
                     c.id_paciente,
@@ -164,14 +155,13 @@ export class Consulta {
 
             let consulta = new Consulta(
                 row.nome_paciente,
-                new Date(row.data),                     // ✔ corrigido
+                new Date(row.data),
                 row.hora,
-                row.diagnostico,
-                row.receita,
+                row.sintomas,
                 row.sala_atendimento,
                 row.consulta_status,
-                Number(row.id_paciente),                // ✔ corrigido
-                Number(row.id_medico)                   // ✔ corrigido
+                Number(row.id_paciente), 
+                Number(row.id_medico) 
             );
 
             consulta.setIdConsulta(row.id_consulta);
@@ -189,16 +179,15 @@ export class Consulta {
         try {
             const query = `
                 INSERT INTO consulta 
-                (data, hora, diagnostico, receita, sala_atendimento, consulta_status, id_paciente, id_medico)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                (data, hora, sintomas, sala_atendimento, consulta_status, id_paciente, id_medico)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
                 RETURNING id_consulta;
             `;
 
             const values = [
                 consulta.getData(),
                 consulta.getHora(),
-                consulta.getDiagnostico(),
-                consulta.getReceita(),
+                consulta.getSintomas(),
                 consulta.getSalaAtendimento(),
                 consulta.getConsultaStatus(),
                 consulta.getIdPaciente(),
@@ -209,7 +198,7 @@ export class Consulta {
             return (result?.rowCount ?? 0) > 0;
 
         } catch (error) {
-            console.error("❌ Erro ao cadastrar consulta:", error);
+            console.error("Erro ao cadastrar consulta:", error);
             return false;
         }
     }
@@ -221,20 +210,18 @@ export class Consulta {
                 SET 
                     data = $1,
                     hora = $2,
-                    diagnostico = $3,
-                    receita = $4,
-                    sala_atendimento = $5,
-                    consulta_status = $6,
-                    id_paciente = $7,
-                    id_medico = $8
-                WHERE id_consulta = $9;
+                    sintomas = $3,
+                    sala_atendimento = $4,
+                    consulta_status = $5,
+                    id_paciente = $6,
+                    id_medico = $7
+                WHERE id_consulta = $8;
             `;
 
             const values = [
                 consulta.getData(),
                 consulta.getHora(),
-                consulta.getDiagnostico(),
-                consulta.getReceita(),
+                consulta.getSintomas(),
                 consulta.getSalaAtendimento(),
                 consulta.getConsultaStatus(),
                 consulta.getIdPaciente(),
@@ -246,7 +233,7 @@ export class Consulta {
             return (result?.rowCount ?? 0) > 0;
 
         } catch (error) {
-            console.error("❌ Erro ao atualizar consulta:", error);
+            console.error("Erro ao atualizar consulta:", error);
             return false;
         }
     }
@@ -262,7 +249,7 @@ export class Consulta {
             return (result?.rowCount ?? 0) > 0;
 
         } catch (error) {
-            console.error("❌ Erro ao remover consulta:", error);
+            console.error("Erro ao remover consulta:", error);
             return false;
         }
     }

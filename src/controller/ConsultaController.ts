@@ -66,8 +66,7 @@ export class ConsultaController extends Consulta {
                 consultaRecebida.receita,
                 consultaRecebida.salaAtendimento,
                 consultaRecebida.consultaStatus,
-                consultaRecebida.idPaciente,
-                consultaRecebida.idMedico
+                consultaRecebida.idPaciente
             );
 
             const resposta = await Consulta.cadastroConsulta(novaConsulta);
@@ -125,8 +124,7 @@ export class ConsultaController extends Consulta {
                 dadosRecebidos.receita,
                 dadosRecebidos.salaAtendimento,
                 dadosRecebidos.consultaStatus,
-                dadosRecebidos.idPaciente,
-                dadosRecebidos.idMedico
+                dadosRecebidos.idPaciente
             );
 
             consulta.setIdConsulta(idConsulta);
