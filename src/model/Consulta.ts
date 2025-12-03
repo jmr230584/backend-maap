@@ -10,6 +10,8 @@ export class Consulta {
     private consultaStatus: string;
     private idPaciente: number;
     private idMedico: number;
+    private nomePaciente?: string;
+    private nomeMedico?: string;
     private statusConsultaRegistro: boolean = true;
 
     constructor(
@@ -18,7 +20,9 @@ export class Consulta {
         salaAtendimento: string,
         consultaStatus: string,
         idPaciente: number | string,
-        idMedico: number | string
+        idMedico: number | string,
+        nomePaciente?: string,
+        nomeMedico?: string
     ) {
         this.data = new Date(data);
         this.hora = hora;
@@ -26,6 +30,8 @@ export class Consulta {
         this.consultaStatus = consultaStatus;
         this.idPaciente = Number(idPaciente) || 0;
         this.idMedico = Number(idMedico) || 0;
+        this.nomePaciente = nomePaciente;
+        this.nomeMedico = nomeMedico;
     }
 
     public getIdConsulta(): number { return this.idConsulta; }
@@ -49,6 +55,12 @@ export class Consulta {
     public getIdMedico(): number { return this.idMedico; }
     public setIdMedico(id: number | string): void { this.idMedico = Number(id) || 0; }
 
+    public getNomePaciente(): string | undefined { return this.nomePaciente; }
+    public setNomePaciente(n: string): void { this.nomePaciente = n; }
+
+    public getNomeMedico(): string | undefined { return this.nomeMedico; }
+    public setNomeMedico(n: string): void { this.nomeMedico = n; }
+
     public getStatusConsultaRegistro(): boolean { return this.statusConsultaRegistro; }
     public setStatusConsultaRegistro(status: boolean): void { this.statusConsultaRegistro = status; }
 
@@ -60,13 +72,12 @@ export class Consulta {
                     c.id_consulta,
                     c.data,
                     c.hora,
-                    c.sintomas,
                     c.sala_atendimento,
                     c.consulta_status,
-                    p.nome AS nome_paciente,
-                    m.nome AS nome_medico,
                     c.id_paciente,
-                    c.id_medico
+                    c.id_medico,
+                    p.nome AS nome_paciente,
+                    m.nome AS nome_medico
                 FROM consulta c
                 JOIN paciente p ON c.id_paciente = p.id_paciente
                 JOIN medico m ON c.id_medico = m.id_medico
@@ -82,11 +93,12 @@ export class Consulta {
                     linha.sala_atendimento,
                     linha.consulta_status,
                     Number(linha.id_paciente),
-                    Number(linha.id_medico)
+                    Number(linha.id_medico),
+                    linha.nome_paciente,
+                    linha.nome_medico
                 );
 
                 consulta.setIdConsulta(linha.id_consulta);
-
                 lista.push(consulta);
             });
 
@@ -104,7 +116,6 @@ export class Consulta {
                     c.id_consulta,
                     c.data,
                     c.hora,
-                    c.sintomas,
                     c.sala_atendimento,
                     c.consulta_status,
                     c.id_paciente,
@@ -115,7 +126,7 @@ export class Consulta {
                 JOIN paciente p ON c.id_paciente = p.id_paciente
                 JOIN medico m ON c.id_medico = m.id_medico
                 WHERE c.id_consulta = $1
-                  AND c.status_consulta_registro = true;
+                AND c.status_consulta_registro = true;
             `;
 
             const respostaBD = await database.query(query, [idConsulta]);
@@ -129,11 +140,12 @@ export class Consulta {
                 row.sala_atendimento,
                 row.consulta_status,
                 Number(row.id_paciente),
-                Number(row.id_medico)
+                Number(row.id_medico),
+                row.nome_paciente,
+                row.nome_medico
             );
 
             consulta.setIdConsulta(row.id_consulta);
-
             return consulta;
 
         } catch {
